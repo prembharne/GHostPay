@@ -1,0 +1,6 @@
+* text=auto
+*.sh text eol=lf
+public-site/frontend-dist/** -text linguist-generated=true
+vercel-site/public/** -text linguist-generated=true
+package-lock.json linguist-generated=true
+**/package-lock.json linguist-generated=true

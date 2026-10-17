@@ -1,0 +1,26 @@
+{
+  "name": "ghostpay",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "contracts",
+    "frontend",
+    "server"
+  ],
+  "scripts": {
+    "compile": "npm run compile -w contracts",
+    "test": "npm run test -w contracts && npm run test -w server",
+    "deploy": "npm run deploy -w contracts",
+    "dev": "concurrently -n relay,web -c green,magenta \"npm run dev -w server\" \"npm run dev -w frontend\"",
+    "build": "npm run compile && npm run build -w server && npm run build -w frontend",
+    "start": "node scripts/start.mjs",
+    "check:sepolia": "node scripts/check-sepolia.mjs"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "typescript": "^5.9.3",
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.6"
+  }
+}

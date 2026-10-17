@@ -1,0 +1,1 @@
+{"name":"@ghostpay/contracts","private":true,"type":"module","scripts":{"compile":"hardhat compile","test":"hardhat test","deploy":"hardhat run scripts/deploy.ts --network sepolia"},"devDependencies":{"hardhat":"^3.0.0","@nomicfoundation/hardhat-toolbox-viem":"^5.0.0","@openzeppelin/contracts":"5.4.0"}}

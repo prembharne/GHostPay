@@ -1,0 +1,13 @@
+{
+  "name": "ghostpay-public-sepolia",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "validate": "node scripts/validate-artifact.mjs",
+    "test": "node --test test/*.test.mjs",
+    "db:generate": "drizzle-kit generate"
+  },
+  "dependencies": { "viem": "2.57.7", "drizzle-orm": "0.45.2" },
+  "devDependencies": { "esbuild": "0.28.2", "drizzle-kit": "0.31.10" }
+}
