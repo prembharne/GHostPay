@@ -6,7 +6,7 @@
 
 ### Conversations with intention. Payments with permission.
 
-A monochrome messenger built around Matrix and Ethereum payment links. Chat UI, encrypted-room integration, and a device-local wallet meet GhostPay’s existing sender-approved Sepolia escrow.
+A monochrome messenger built around Matrix and EVM native-coin payment links. Chat UI, encrypted-room integration, live USD reference estimates and sender-approved escrow share one interface.
 
 [![Live demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel)](https://ghostpay-lac.vercel.app)
 [![Network](https://img.shields.io/badge/Network-Ethereum_Sepolia-627EEA?style=for-the-badge&logo=ethereum&logoColor=white)](https://sepolia.etherscan.io/address/0x3F5632eDFcbF22D7CFF126106854a6700Ffd7bF4)
@@ -16,7 +16,7 @@ A monochrome messenger built around Matrix and Ethereum payment links. Chat UI, 
 
 </div>
 
-> **Sepolia testnet only. Experimental and unaudited.** Use test ETH. GhostPay is transparent escrow: wallets, amounts, approvals, and blockchain activity are not private.
+> **EVM testnets only. Experimental and unaudited.** Use test coins. GhostPay is transparent escrow: wallets, amounts, approvals, and blockchain activity are not private.
 
 ## Messenger release
 
@@ -26,7 +26,7 @@ A monochrome messenger built around Matrix and Ethereum payment links. Chat UI, 
 | --- | --- |
 | Interface | Responsive inbox/thread layout, search and filters, groups, replies, local pin/mute/archive preferences, emoji picker, contact details and payment cards |
 | Matrix integration | Real SDK adapter for login/SSO, sync, encrypted private rooms, invitations, typing, receipts, pagination and encrypted attachments; live delivery is awaiting a server and end-to-end verification |
-| Payment links | Existing Sepolia escrow plus create/request/approve/claim/refund controls inside chats; sharing failure can retry the funded payment without creating another deposit |
+| Payment links | Live USD reference entry, EVM testnet picker, native-coin escrow deployment and signed request/approval links; existing Sepolia links remain supported |
 | Self-custodial wallet | Opt-in, client-generated Ethereum key; password-encrypted JSON backup, import, auto-lock and explicit signature/transaction confirmations; MetaMask remains available |
 | Google login | Discovers the homeserver’s advertised provider; OAuth secrets belong on Synapse, never in the frontend. Google does not recover the wallet |
 | Infrastructure | Synapse/PostgreSQL/Caddy configuration and setup guide prepared in [`infra/matrix`](infra/matrix/README.md); not started on this machine |
@@ -45,6 +45,30 @@ A direct wallet transfer requires the destination address upfront. A payment lin
 GhostPay separates **discovering a payment** from **permission to withdraw it**. The URL contains a payment ID, not a secret withdrawal key. The sender approves a specific requesting wallet after independently verifying it, and the contract enforces that choice.
 
 Payment links, escrow, and digital signatures already exist. GhostPay's focus is their combination into a deliberate **fund → request → verify → authorize → claim** workflow. This adds an approval step, so it suits payments where checking the recipient matters more than immediate redemption.
+
+## EVM native payments
+
+Open **[Create payment](https://ghostpay-lac.vercel.app/create)** or choose **Pay** inside a conversation. Select the EVM testnet and enter USD reference or a native-coin amount. Common choices include Sepolia ETH, BNB Smart Chain test BNB, Polygon Amoy POL, Avalanche Fuji AVAX, Base/Arbitrum/OP Sepolia ETH, Celo Sepolia CELO and Sonic test S. The searchable catalog contains **303 testnet definitions**, not 303 verified deployments or guaranteed working RPC endpoints. Mainnets, Bitcoin and TRON are excluded.
+
+**One contract implementation, separate deployments.** [`GhostPayNativeEscrow.sol`](contracts/contracts/GhostPayNativeEscrow.sol) holds each network's native coin using the same Solidity source and Paris-targeted bytecode. It preserves fund-first, sender-approved-recipient claims and sender refunds after expiry. There is no bridge, token swap, ERC-20 support, administrative withdrawal or upgrade mechanism. A payment settles on the network where it was funded.
+
+The only existing configured public escrow is the original Sepolia v1 address listed below. Other networks require **Deploy escrow** through the user's funded testnet MetaMask wallet, or import an existing deployment of the exact v2 runtime. The app checks RPC chain ID, deployed bytecode and signing domain before using it. The deployment transaction pays testnet gas; it is separate from the payment deposit. Deployment addresses are remembered on that browser; payment URLs include chain, contract and payment ID for other devices.
+
+**Live rate estimates.** `/api/prices` fetches a fixed asset allowlist from CoinGecko, with Coinbase as a separately labeled fallback. Prices show their source and update/retrieval time, refresh every 45 seconds, and expire for conversion after three minutes. USD conversion uses integer arithmetic and rounds down to native base units. The native amount and rate are frozen once a deposit is submitted. Test coins have **no redeemable USD value**: these are corresponding mainnet market references, not fiat payments, swaps or price guarantees. Missing/stale prices require native amount entry. Optional `COINGECKO_DEMO_API_KEY` belongs on the server/Vercel environment, never in a `VITE_` variable.
+
+**v2 signed-link workflow:**
+
+1. The sender funds an escrow and shares `/pay/v2/<chainId>/<contract>/<paymentId>`.
+2. The recipient signs a typed wallet request and sends the complete `#request=` link back.
+3. The sender opens/pastes that link, independently verifies the person and full wallet address, and signs an authorization lasting at most 15 minutes (bounded by escrow expiry).
+4. The sender shares the complete `#authorization=` link; the exact approved wallet submits the on-chain claim and pays that network's gas.
+5. The sender can refund an unclaimed deposit after expiry. Approvals cannot be revoked before their deadline; the first valid claim wins.
+
+v2 uses signed URL fragments instead of the legacy Sepolia relay. Keep the complete link when sharing. The same escrow contract validates the sender's authorization on each chain. The original `/pay/<id>` links and Worker/D1 relay continue to serve v1 Sepolia payments. The device-local wallet remains restricted to that original Sepolia contract; new EVM escrow flows use MetaMask. This release does not add wallet-key custody to the backend.
+
+Known submitted hashes are retained while the current payment dialog/page remains open, so checking a pending transaction does not issue a second deposit. This is not durable pending-transaction recovery across reloads: save the explorer hash and funded link, and check the chain before starting again. The v2 history is device-local, not an indexer or a wallet backup. Public funded two-wallet lifecycle checks on additional networks require user-controlled funded wallets and have not been performed.
+
+See [`docs/EVM-PAYMENTS.md`](docs/EVM-PAYMENTS.md) for setup, verification and protocol boundaries.
 
 ## Live deployment
 
@@ -122,7 +146,7 @@ flowchart LR
 | Frontend | React 19, TypeScript, Vite 7, Tailwind CSS 4, React Router |
 | Wallet / chain client | MetaMask, wagmi, viem |
 | Visuals | Three.js, Lucide, self-hosted Inter and Instrument Serif |
-| Smart contract | Solidity 0.8.28 compiler, Cancun target, OpenZeppelin Contracts 5.4 |
+| Smart contract | Solidity 0.8.28; original v1 Cancun/OpenZeppelin 5.4; shared v2 native escrow targets Paris |
 | Contract tooling | Hardhat 3 for compilation, isolated tests, and optional CLI deployment |
 | Local relay | Node.js, Express 5 |
 | Hosted relay / storage | Cloudflare Worker and D1 |

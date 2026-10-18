@@ -5,10 +5,29 @@
   "buildCommand": "",
   "installCommand": "",
   "outputDirectory": "public",
-  "functions": { "api/relay.js": { "maxDuration": 30 } },
+  "functions": {
+    "api/relay.js": {
+      "maxDuration": 30
+    },
+    "api/prices.js": {
+      "maxDuration": 25
+    }
+  },
   "routes": [
-    { "src": "/api/(.*)", "dest": "/api/relay?path=$1" },
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    {
+      "src": "/api/prices",
+      "dest": "/api/prices"
+    },
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/relay?path=$1"
+    },
+    {
+      "handle": "filesystem"
+    },
+    {
+      "src": "/.*",
+      "dest": "/index.html"
+    }
   ]
 }

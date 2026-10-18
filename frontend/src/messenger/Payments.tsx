@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { ArrowDownLeft, ArrowUpRight, Check, ExternalLink, Ghost, Link2, LoaderCircle, LockKeyhole, Send, ShieldCheck, Wallet as WalletIcon } from 'lucide-react';
 import { decodeEventLog, formatEther, parseEther } from 'viem';
@@ -12,8 +12,14 @@ import { chainNow } from '../../../shared/clock';
 import { Modal } from './Modal';
 import { useMessenger } from './MessengerContext';
 import type { PaymentReference } from './model';
+import { NativeComposer } from '../payments/NativeComposer';
+import { NativeCard } from '../payments/NativeCard';
 
-export function PaymentCard({ payment, preview, onOpen, onCreate }: { payment?: PaymentReference; preview?: boolean; onOpen: (id: string) => void; onCreate: () => void }) {
+export function PaymentCard(props: { payment?: PaymentReference; preview?: boolean; onOpen: (id: string) => void; onCreate: () => void }) {
+  return props.payment?.version === 2 ? <NativeCard reference={props.payment}/> : <LegacyPaymentCard {...props}/>;
+}
+
+function LegacyPaymentCard({ payment, preview, onOpen, onCreate }: { payment?: PaymentReference; preview?: boolean; onOpen: (id: string) => void; onCreate: () => void }) {
   const valid = !!payment && payment.contract.toLowerCase() === contractAddress.toLowerCase() && payment.chainId === chain.id;
   const result = usePayment(valid ? BigInt(payment!.paymentId) : 0n); const p = result.data;
   const label = preview ? 'Design preview · no deposit' : !valid ? 'Different escrow · verify first' : result.isError ? 'Could not read payment' : !p ? 'Reading Sepolia…' : p.status === 2 ? 'Claimed' : p.status === 3 ? 'Refunded' : p.status === 0 ? 'Payment not found' : p.expiry <= BigInt(Math.floor(Date.now() / 1000)) ? 'Expired' : 'Held in escrow';
@@ -28,41 +34,8 @@ export function PaymentCard({ payment, preview, onOpen, onCreate }: { payment?: 
 }
 
 export function PaymentComposer({ onClose }: { onClose: () => void }) {
-  const chat = useMessenger(); const room = chat.rooms.find(room => room.id === chat.activeId);
-  const { address, chainId } = useAccount(); const client = usePublicClient({ chainId: chain.id }); const { writeContractAsync } = useWriteContract();
-  const action = useAction(); const [amount, setAmount] = useState(''); const [expiry, setExpiry] = useState('86400'); const [created, setCreated] = useState<{ id: string; hash: string }>(); const [pendingHash, setPendingHash] = useState<`0x${string}`>();
-  async function submit(e: FormEvent) { e.preventDefault(); await action.run(async () => {
-    if (!address || chainId !== chain.id || !client || !deployed) throw new Error('Connect a wallet to Sepolia first.');
-    let payment = created;
-    if (!payment) {
-      if (!/^\d*(\.\d{1,18})?$/.test(amount) || !amount || parseEther(amount) <= 0n) throw new Error('Enter a positive ETH amount with at most 18 decimals.');
-      action.setNotice('Confirm the test ETH deposit in your wallet.');
-      const expiryAt = chainNow(await client.getBlock()) + BigInt(expiry);
-      const hash = pendingHash || await writeContractAsync({ address: contractAddress, abi: escrowAbi, functionName: 'createETHPayment', args: [expiryAt], value: parseEther(amount), chainId: chain.id }); setPendingHash(hash);
-      action.setNotice('Waiting for your Sepolia deposit to confirm…'); const receipt = await client.waitForTransactionReceipt({ hash });
-      if (receipt.status !== 'success') { setPendingHash(undefined); throw new Error('Deposit reverted. No payment was created.'); }
-      let id: string | undefined;
-      for (const log of receipt.logs) { if (log.address.toLowerCase() !== contractAddress.toLowerCase()) continue; try { const event = decodeEventLog({ abi: escrowAbi, eventName: 'PaymentCreated', data: log.data, topics: log.topics }); id = String(event.args.paymentId); } catch {} }
-      if (!id) throw new Error('No payment event found. Check My payments before trying again.');
-      payment = { id, hash }; setCreated(payment);
-    }
-    await chat.send(`A little something, headed your way. ${linkFor(payment.id)}`, { version: 1, chainId: chain.id, contract: contractAddress, paymentId: payment.id });
-    chat.notify(chat.mode === 'preview' ? 'Real Sepolia payment created. Card saved only to this local preview; use Copy link to share it.' : 'Payment created and shared in this encrypted conversation.'); onClose();
-  }); }
-  return <Modal title="Send a little something." eyebrow="A PAYMENT, INSIDE THE CONVERSATION" onClose={() => { if (!action.busy) onClose(); }}>
-    <p className="ms-modal-copy">Create a link for {room?.name || 'your recipient'}. They choose a wallet. You decide who can claim.</p>
-    <div className="ms-wallet-connect workspace"><Wallet/></div>
-    <form className="ms-form" onSubmit={submit}>
-      <label htmlFor="chat-amount">Amount <span>Sepolia test ETH</span></label><div className="ms-amount-field"><input id="chat-amount" value={amount} onChange={e => setAmount(e.target.value)} inputMode="decimal" placeholder="0.00" required disabled={!!created || !!pendingHash}/><span>ETH</span></div>
-      <label htmlFor="chat-expiry">Link expires in</label><select id="chat-expiry" value={expiry} onChange={e => setExpiry(e.target.value)} disabled={!!created || !!pendingHash}><option value="3600">1 hour</option><option value="86400">24 hours</option><option value="604800">7 days</option><option value="300">5 minutes · quick test</option></select>
-      <div className="ms-summary-row"><span>Protocol fee</span><strong>0 ETH <small>+ network gas</small></strong></div>
-      <div className="ms-modal-note"><ShieldCheck size={17}/><span>{chat.mode === 'preview' ? 'This creates a real Sepolia deposit. The card stays in this local preview until you share its link.' : 'Your funds are held in escrow. Sharing the card does not grant permission to withdraw.'}</span></div>
-      {action.error && <p className="ms-alert" role="alert">{action.error}</p>}{action.notice && <p className="ms-fine" role="status">{action.notice}</p>}
-      {pendingHash && !created && <a className="ms-text" href={`${explorer}/tx/${pendingHash}`} target="_blank" rel="noreferrer">Deposit submitted. Retry to check this same transaction.<ExternalLink size={13}/></a>}
-      {created && <a className="ms-text" href={linkFor(created.id)} target="_blank" rel="noreferrer">Payment #{created.id} is funded. Open it if sharing fails.<ExternalLink size={13}/></a>}
-      <button className="ms-button ms-primary" disabled={action.busy || !address || chainId !== chain.id || !deployed}>{action.busy ? <LoaderCircle size={17} className="spin"/> : <Send size={17}/>} {created ? 'Share this funded payment' : pendingHash ? 'Check deposit & share' : 'Create & share payment'}</button>
-    </form>
-  </Modal>;
+  const chat = useMessenger(); const room = chat.rooms.find(item => item.id === chat.activeId);
+  return <NativeComposer onClose={onClose} recipient={room?.name} onShare={async (body, reference) => { await chat.send(body, reference); chat.notify(chat.mode === 'preview' ? 'Payment card saved on this device. Share its public link separately.' : 'Payment shared in this encrypted conversation.'); }}/>;
 }
 
 export function PaymentDetails({ id, onClose }: { id: string; onClose: () => void }) {

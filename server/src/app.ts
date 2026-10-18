@@ -1,4 +1,5 @@
 import express from 'express';
+import { createMarketService } from '../../shared/market.js';
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
 import { getAddress, isAddress, recoverMessageAddress, type Address, type Hex, type PublicClient } from 'viem';
@@ -9,7 +10,7 @@ import { chainNow } from '../../shared/clock.js';
 import type { DeploymentRegistry } from './deployment.js';
 
 export function createApp(client: PublicClient, deployment: { address: Address; chainId: number; configured?: boolean; blockNumber?: string }, origin = 'http://localhost:5173', setup?: { registry: DeploymentRegistry; bytecode: Hex }) {
-  const app = express(); const store = new RequestStore();
+  const app = express(); const store = new RequestStore(); const marketPrices = createMarketService(fetch, process.env.COINGECKO_DEMO_API_KEY);
   app.disable('x-powered-by');
   app.use(cors({ origin: origin.split(','), methods: ['GET', 'POST'] }));
   app.use(express.json({ limit: '12kb' }));
@@ -19,6 +20,7 @@ export function createApp(client: PublicClient, deployment: { address: Address; 
   const sigValid = (s: unknown): s is Hex => typeof s === 'string' && /^0x[\da-fA-F]+$/.test(s) && s.length % 2 === 0;
   async function payment(id: string) { return client.readContract({ address: deployment.address, abi: escrowAbi, functionName: 'getPayment', args: [BigInt(id)] }); }
   const fail = (message: string, status = 400): never => { throw Object.assign(new Error(message), { status }); };
+  app.get('/api/prices', async (_req, res) => { try { res.setHeader('Cache-Control', 'public, max-age=15'); res.json(await marketPrices()); } catch { res.status(503).json({ error: 'Live prices are temporarily unavailable.' }); } });
   app.get('/api/deployment', (_req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json(setup?.registry.current || { ...deployment, configured: true }); });
   app.get('/api/deployment/artifact', (_req, res) => { if (!setup) return fail('Wallet deployment is not enabled.', 404); res.json({ bytecode: setup.bytecode, chainId: deployment.chainId }); });
   app.post('/api/deployment', rateLimit({ windowMs: 60000, limit: 10 }), async (req, res) => {

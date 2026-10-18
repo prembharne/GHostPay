@@ -1,5 +1,16 @@
 # GhostPay - current verification state
 
+## EVM native payments - 2026-10-19
+
+- Implemented EVM-native testnet payment selection, USD-reference amount entry, exact integer conversion, source/timestamp disclosure, stale-rate blocking, and native entry fallback. CoinGecko is the primary fixed-allowlist provider; Coinbase is a labeled fallback. Test coins have no redeemable USD value.
+- Mainnets, Bitcoin and TRON are excluded. The generated catalog contains 303 EVM testnet definitions, with nine suggested networks. All nine suggested RPC chain IDs were read successfully from this machine using normal request headers. Sonic's obsolete testnet metadata was replaced with official chain ID 14601 after the old endpoint returned a different ID. This does not establish browser CORS support, continuous availability or successful deployments on every network.
+- Added one reusable `GhostPayNativeEscrow.sol` v2 implementation compiled for Paris. Each chain needs a separate instance. MetaMask deployment/import validates exact runtime bytecode, RPC chain ID and signing domain. No additional public-chain contract was deployed by the agent; the existing configured Sepolia v1 contract is preserved.
+- New v2 payment URLs carry chain/contract/payment ID. Signed request and authorization fragments support relay-independent request -> independent person/wallet verification -> sender approval -> recipient-only on-chain claim. New UI approvals last at most 15 minutes, bounded by escrow expiry. Approvals cannot be revoked early; first valid claim wins. Sender refunds remain available after expiry. No bridges or ERC-20 transfers were added.
+- The device wallet retains its original Sepolia escrow whitelist. Other EVM escrow workflows use MetaMask. v2 deployment preferences/history are device-local. Pending hash retries are safe within the open UI, but refresh recovery is not durable.
+- Production deployment `dpl_DuLBgx1wPBV91PijW6PU9g2HK4be` is READY at https://ghostpay-lac.vercel.app.
+- Public production verification: `/api/prices` returned live CoinGecko quotes for all nine tracked assets and rejected POST with 405. Deployment/health APIs, the native escrow artifact and app deep links returned 200. Mobile USD/native toggles, BNB setup, TRX exclusion, rounded amount controls, desktop spacing and mainnet-link rejection were checked. The original Sepolia `/pay/1` still rendered its claimed on-chain state. No user wallet signing/deployment/funding was performed. Screenshots are `docs/native-payments-mobile.png` and `docs/native-networks-mobile.png`.
+- Validation: root production build passed; 47 contract tests passed (22 original plus 25 v2, including ERC-1271, malleable signature rejection and full signed-request-to-claim integration); 19 frontend/messenger/vault test reports passed (including parent suite); 17 server and four gateway regression tests passed. Full funded two-wallet flows on additional public networks remain unverified and require user-controlled funded wallets.
+
 ## Messenger UI polish - 2026-10-18
 
 - Removed the top-right local-preview badge and all three app-footer messages. Account/connection controls remain in Settings, and the conversation still discloses that unconnected messages stay on-device.

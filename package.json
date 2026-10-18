@@ -12,18 +12,20 @@
     "compile": "npm run compile -w contracts",
     "test": "npm run test -w contracts && npm run test -w server",
     "test:messenger": "node --import tsx --test frontend/test/*.test.ts",
-    "sync:vercel": "node scripts/sync-vercel.mjs",
+    "sync:vercel": "npm run build:services && node scripts/sync-vercel.mjs",
     "deploy": "npm run deploy -w contracts",
     "dev": "concurrently -n relay,web -c green,magenta \"npm run dev -w server\" \"npm run dev -w frontend\"",
-    "build": "npm run compile && npm run build -w server && npm run build -w frontend",
+    "build": "npm run compile && npm run build:services && npm run build -w server && npm run build -w frontend",
     "start": "node scripts/start.mjs",
-    "check:sepolia": "node scripts/check-sepolia.mjs"
+    "check:sepolia": "node scripts/check-sepolia.mjs",
+    "build:services": "node scripts/build-prices.mjs && node scripts/build-native-artifact.mjs"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "typescript": "^5.9.3",
     "@types/node": "^24.0.0",
-    "tsx": "^4.20.6"
+    "concurrently": "^9.2.1",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
   },
   "overrides": {
     "viem@2.23.2": {

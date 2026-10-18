@@ -13,7 +13,7 @@ const information = {
     eyebrow: 'A LINK. A WALLET. YOUR APPROVAL.',
     title: 'Less friction. More control.',
     items: [
-      ['Send before you know the address.', 'Deposit ETH into the escrow and share a payment link. The recipient connects their own wallet later.'],
+      ['Send before you know the address.', 'Deposit native test coins into the escrow and share a payment link. The recipient connects their own wallet later.'],
       ['A copied link cannot claim.', 'Your EIP-712 approval is bound to a specific wallet, payment, contract, network, and deadline. Only that wallet can claim.'],
       ['Unclaimed funds can come back.', 'After expiry, the original sender can refund the full unclaimed deposit. GhostPay charges no protocol fee; network gas still applies.'],
     ],
@@ -22,7 +22,7 @@ const information = {
     eyebrow: 'FROM YOUR WALLET TO THEIRS',
     title: 'Three steps. One payment link.',
     items: [
-      ['01 — Create & share', 'Connect MetaMask, deposit Sepolia test ETH, choose an expiry, and share the link generated from your confirmed transaction.'],
+      ['01 — Create & share', 'Connect MetaMask, choose an EVM testnet, deposit its native test coin, choose an expiry, and share the link generated from your confirmed transaction.'],
       ['02 — Verify & approve', 'The recipient connects a wallet and requests a claim. Verify the person and their full wallet address through an independent channel, then sign a gas-free approval.'],
       ['03 — Claim, or refund', 'The approved recipient claims on-chain and pays network gas. If the payment expires unclaimed, the sender can refund it from My payments.'],
     ],
@@ -31,8 +31,8 @@ const information = {
     eyebrow: 'GOOD TO KNOW BEFORE YOU SEND',
     title: 'A few things, made clear.',
     items: [
-      ['Can anyone with the link take my ETH?', 'No. A link only identifies a payment. Withdrawing requires a valid sender signature for the exact recipient wallet, and that wallet must submit the claim.'],
-      ['Is this anonymous or audited?', 'Neither. Payments and wallet addresses are visible on-chain. This experimental hackathon build is not audited. Use Sepolia test ETH only.'],
+      ['Can anyone with the link take my funds?', 'No. A link only identifies a payment. Withdrawing requires a valid sender signature for the exact recipient wallet, and that wallet must submit the claim.'],
+      ['Is this anonymous or audited?', 'Neither. Payments and wallet addresses are visible on-chain. This experimental hackathon build is not audited. Use EVM testnet coins only.'],
       ['What if the recipient never claims?', 'The original sender can refund after the on-chain expiry. Approvals cannot be revoked before their deadline. Verify carefully before signing.'],
       ['What does it cost?', 'GhostPay has no protocol fees. Deposits, claims, and refunds require network gas. Sender approval is a signature, without a gas transaction.'],
     ],
@@ -124,7 +124,7 @@ export function Landing() {
 
         <main className="gp-hero" id="gp-main">
           <div className="gp-copy">
-            <div className="gp-badge gp-appear gp-appear--pop" style={delay('.22s')}><Sparkle className="gp-badge-star" size={18} fill="currentColor" strokeWidth={0} aria-hidden="true" />Wallet-bound ETH payments</div>
+            <div className="gp-badge gp-appear gp-appear--pop" style={delay('.22s')}><Sparkle className="gp-badge-star" size={18} fill="currentColor" strokeWidth={0} aria-hidden="true" />Wallet-bound native payments</div>
             <h1>
               <span className="gp-headline-line"><span className="gp-appear gp-appear--mask" style={delay('.42s')}>Send <em>crypto</em> with a link.</span></span>
               <span className="gp-headline-line"><span className="gp-appear gp-appear--mask" style={delay('.62s')}>Stay in control, every time.</span></span>

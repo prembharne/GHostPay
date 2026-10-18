@@ -9,7 +9,7 @@ test('payment cards accept a bounded Sepolia reference without trusting amount o
 });
 test('payment references reject other chains, invalid addresses, versions and shapes', () => {
   const input = { version: 1, chainId: 11155111, contract, paymentId: '1' };
-  for (const patch of [{ chainId: 1 }, { chainId: 31337 }, { contract: 'https://evil.example' }, { contract: '0x1' }, { version: 2 }, { paymentId: 1 }]) assert.equal(parsePayment({ ...input, ...patch }), undefined);
+  for (const patch of [{ chainId: 1 }, { chainId: 31337 }, { contract: 'https://evil.example' }, { contract: '0x1' }, { version: 3 }, { paymentId: 1 }]) assert.equal(parsePayment({ ...input, ...patch }), undefined);
   assert.equal(parsePayment(null), undefined); assert.equal(parsePayment('1'), undefined);
 });
 test('homeserver configuration only accepts secure origins and explicit loopback development', () => {

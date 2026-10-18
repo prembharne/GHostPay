@@ -2,6 +2,8 @@ import { createConfig, http, injected } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import { isAddress, zeroAddress, type Address } from 'viem';
 import { SEPOLIA_RPC_URL, SEPOLIA_EXPLORER } from '../../../shared/network';
+import { evmTestnets } from '../../../shared/evm-networks';
+import { chainFor } from '../../../shared/nativeProtocol';
 import { ghostWallet } from '../wallet/connector';
 import { setAllowedEscrow } from '../wallet/vault';
 export { escrowAbi } from '../../../shared/abi';
@@ -20,4 +22,4 @@ export function configureDeployment(data: { address?: string; chainId?: number; 
   contractAddress = data.address as Address; deploymentBlock = BigInt(data.blockNumber!); deployed = true; setAllowedEscrow(contractAddress);
 }
 export function setDeploymentIssue(message: string) { deploymentIssue = message; }
-export const config = createConfig({ chains: [chain], connectors: [injected({ target: 'metaMask' }), ghostWallet()], transports: { [chain.id]: http(browserRpcUrl, { timeout: 20000, retryCount: 2 }) } });
+export const config = createConfig({ chains: [chain, ...evmTestnets.filter(network => network.id !== chain.id).map(chainFor)], connectors: [injected({ target: 'metaMask' }), ghostWallet()], transports: Object.fromEntries(evmTestnets.map(network => [network.id, http(network.id === chain.id ? browserRpcUrl : network.rpc, { timeout: 20000, retryCount: 1 })])) });

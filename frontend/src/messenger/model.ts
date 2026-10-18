@@ -1,6 +1,7 @@
 import { isAddress } from 'viem';
+import { nativeReference, type NativeReference } from '../../../shared/nativeProtocol';
 
-export interface PaymentReference { version: 1; chainId: number; contract: string; paymentId: string }
+export type PaymentReference = { version: 1; chainId: number; contract: string; paymentId: string } | NativeReference;
 export interface ChatMessage {
   id: string; roomId: string; sender: string; senderName: string; body: string; timestamp: number;
   own: boolean; state: 'sent' | 'sending' | 'failed' | 'local'; payment?: PaymentReference;
@@ -18,6 +19,7 @@ export const PAYMENT_CONTENT_KEY = 'org.ghostpay.payment';
 export function parsePayment(value: unknown): PaymentReference | undefined {
   if (!value || typeof value !== 'object') return;
   const p = value as Record<string, unknown>;
+  if (p.version === 2) return nativeReference(value);
   if (p.version !== 1 || p.chainId !== 11155111 || typeof p.contract !== 'string' || !isAddress(p.contract) || typeof p.paymentId !== 'string' || !/^[1-9]\d{0,76}$/.test(p.paymentId) || BigInt(p.paymentId) >= 2n ** 256n) return;
   return { version: 1, chainId: p.chainId, contract: p.contract, paymentId: p.paymentId };
 }
