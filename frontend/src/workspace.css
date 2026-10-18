@@ -252,3 +252,7 @@
 @media (prefers-reduced-motion: reduce) {
   .workspace *, .workspace *::before, .workspace *::after { transition: none !important; animation: none !important; }
 }
+
+/* Shared form geometry across payment, setup and wallet screens. */
+.workspace :is(input:not([type=checkbox]):not([type=radio]):not([type=range]),textarea,select){border-radius:17px}
+.workspace :is(.amount-input,.amount-field,.input-wrap){border-radius:22px}

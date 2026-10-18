@@ -1,6 +1,6 @@
 # GhostPay messenger foundation
 
-The messenger keeps the landing page’s black/silver palette, fine borders, editorial serif accents and restrained motion. `/chat` uses a dedicated app shell while the landing page and standalone payment URLs remain available.
+The messenger keeps the landing page’s black/silver palette, fine borders, editorial serif accents and restrained motion. Conversation backgrounds use a pointer-responsive Three.js liquid-light shader with click ripples and a pause control. This is a procedural visual effect, not a physical fluid simulation. Reduced-motion preferences and WebGL failure retain a static fallback. Input surfaces use rounded borders, and the top preview badge and app footer have been removed. `/chat` uses a dedicated app shell while the landing page and standalone payment URLs remain available.
 
 ## What works without configuration
 

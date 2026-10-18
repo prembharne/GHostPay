@@ -1,5 +1,13 @@
 # GhostPay - current verification state
 
+## Messenger UI polish - 2026-10-18
+
+- Removed the top-right local-preview badge and all three app-footer messages. Account/connection controls remain in Settings, and the conversation still discloses that unconnected messages stay on-device.
+- Added a lazy-loaded Three.js procedural liquid-light background inside the conversation. Pointer movement distorts the currents; pointer presses emit ripples. A header control pauses/resumes motion. Reduced-motion users receive a static fallback, and offscreen/hidden views stop animation.
+- Rounded the composer, search fields, modal fields, and shared payment/setup fields. The badge/footer removals and rendered radii (27px composer, 24px search, 17px form input and 20px amount container) were checked in the deployed DOM.
+- Frontend TypeScript/production build passed. Public desktop (1440px) and mobile (390px) layouts and the payment dialog were checked. Consecutive running screenshots differed; consecutive paused screenshots were identical. The browser reported no error/warning logs during these checks. No wallet signing or message transmission was performed.
+- Vercel production `dpl_wHqpXmUCGMiEPteew7dicUrFm5pd` is READY at https://ghostpay-lac.vercel.app/chat. Screenshots are stored in `docs/messenger-fluid-desktop.png` and `docs/messenger-fluid-mobile.png`.
+
 ## Messenger release - 2026-10-18
 
 - Public messenger: https://ghostpay-lac.vercel.app/chat. Production deployment `dpl_HqDRzyjXwfhTXb23ydPfFVzK7i42` built through the Vercel CLI. Final checks include HTTP 200 for chat/payment/dashboard deep links, deployment/health APIs, JavaScript assets and correctly served Rust crypto WASM. These are availability checks, not live chat/financial lifecycle verification.
