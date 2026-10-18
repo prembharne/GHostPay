@@ -13,7 +13,7 @@ const pendingKey = 'ghostpay-sepolia-deployment-transaction';
 function savedHash(): string { try { return sessionStorage.getItem(pendingKey) || ''; } catch { return ''; } }
 
 export function Setup() {
-  const { address, chainId } = useAccount();
+  const { address, chainId, connector } = useAccount();
   const client = usePublicClient({ chainId: chain.id });
   const { data: balance } = useBalance({ address, chainId: chain.id, query: { refetchInterval: 15000 } });
   const { sendTransactionAsync } = useSendTransaction();
@@ -43,6 +43,7 @@ export function Setup() {
   async function deploy() {
     await action.run(async () => {
       if (!address || chainId !== chain.id || !client || !artifact.data) throw new Error('Connect MetaMask to Sepolia first.');
+      if (connector?.id === 'ghostpay-local') throw new Error('Use MetaMask for contract deployment. The GhostPay device wallet only supports the configured escrow.');
       if (artifact.data.chainId !== chain.id) throw new Error('Deployment artifact is not configured for Sepolia.');
       const current = await api<{ configured: boolean }>('/deployment');
       if (current.configured) { window.location.reload(); return; }

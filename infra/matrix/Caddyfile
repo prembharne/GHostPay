@@ -1,0 +1,16 @@
+{$MATRIX_SERVER_NAME} {
+  encode zstd gzip
+  header Strict-Transport-Security "max-age=31536000"
+  handle /.well-known/matrix/server {
+    header Content-Type application/json
+    respond "{\"m.server\":\"{$MATRIX_SERVER_NAME}:443\"}" 200
+  }
+  handle /.well-known/matrix/client {
+    header Content-Type application/json
+    header Access-Control-Allow-Origin "*"
+    respond "{\"m.homeserver\":{\"base_url\":\"https://{$MATRIX_SERVER_NAME}\"}}" 200
+  }
+  handle {
+    reverse_proxy synapse:8008
+  }
+}

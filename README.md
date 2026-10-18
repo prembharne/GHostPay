@@ -4,19 +4,39 @@
 
 # GhostPay
 
-### Send crypto. Share a link. Approve the right wallet.
+### Conversations with intention. Payments with permission.
 
-Fund an ETH payment before you know the recipient's address. Share a link, verify the claimant, and authorize their exact wallet with an EIP-712 signature.
+A monochrome messenger built around Matrix and Ethereum payment links. Chat UI, encrypted-room integration, and a device-local wallet meet GhostPay’s existing sender-approved Sepolia escrow.
 
 [![Live demo](https://img.shields.io/badge/Live_Demo-Vercel-000000?style=for-the-badge&logo=vercel)](https://ghostpay-lac.vercel.app)
 [![Network](https://img.shields.io/badge/Network-Ethereum_Sepolia-627EEA?style=for-the-badge&logo=ethereum&logoColor=white)](https://sepolia.etherscan.io/address/0x3F5632eDFcbF22D7CFF126106854a6700Ffd7bF4)
 [![Status](https://img.shields.io/badge/Status-Hackathon_MVP-eab308?style=for-the-badge)](#security-and-current-limits)
 
-[Try the app](https://ghostpay-lac.vercel.app) · [View contract](https://sepolia.etherscan.io/address/0x3F5632eDFcbF22D7CFF126106854a6700Ffd7bF4) · [Run locally](#run-locally) · [Security](#security-and-current-limits)
+[Open messenger](https://ghostpay-lac.vercel.app/chat) · [View contract](https://sepolia.etherscan.io/address/0x3F5632eDFcbF22D7CFF126106854a6700Ffd7bF4) · [Run locally](#run-locally) · [Security](#security-and-current-limits)
 
 </div>
 
 > **Sepolia testnet only. Experimental and unaudited.** Use test ETH. GhostPay is transparent escrow: wallets, amounts, approvals, and blockchain activity are not private.
+
+## Messenger release
+
+**[Explore the messenger](https://ghostpay-lac.vercel.app/chat).** The public release currently opens a clearly labeled **local preview**, with fictional conversations. Preview messages stay in your browser; nobody receives them. A Matrix homeserver and Google OIDC configuration have not been supplied or deployed.
+
+| Area | Current behavior |
+| --- | --- |
+| Interface | Responsive inbox/thread layout, search and filters, groups, replies, local pin/mute/archive preferences, emoji picker, contact details and payment cards |
+| Matrix integration | Real SDK adapter for login/SSO, sync, encrypted private rooms, invitations, typing, receipts, pagination and encrypted attachments; live delivery is awaiting a server and end-to-end verification |
+| Payment links | Existing Sepolia escrow plus create/request/approve/claim/refund controls inside chats; sharing failure can retry the funded payment without creating another deposit |
+| Self-custodial wallet | Opt-in, client-generated Ethereum key; password-encrypted JSON backup, import, auto-lock and explicit signature/transaction confirmations; MetaMask remains available |
+| Google login | Discovers the homeserver’s advertised provider; OAuth secrets belong on Synapse, never in the frontend. Google does not recover the wallet |
+| Infrastructure | Synapse/PostgreSQL/Caddy configuration and setup guide prepared in [`infra/matrix`](infra/matrix/README.md); not started on this machine |
+| Remaining | Live cross-device/federation verification, full device verification/key-backup interface, calls/push services, native mobile clients and broader WhatsApp feature parity |
+
+The UI includes voice-note recording through the browser’s MediaRecorder API. Microphone capture and live encrypted media delivery still need testing with user permission and a configured server. Calling controls explicitly show that calls are not enabled.
+
+See [`docs/MESSENGER.md`](docs/MESSENGER.md) for architecture, wallet boundaries and the activation checklist. This is a working UI and integration foundation, not a claim of complete WhatsApp parity or a production-audited messenger.
+
+![GhostPay messenger desktop preview](docs/messenger-desktop.png)
 
 ## Why GhostPay?
 
@@ -43,7 +63,7 @@ The creation transaction was checked against the compiled contract bytecode, suc
 
 ## How it works
 
-1. **Create a payment.** Connect MetaMask, choose an amount and expiry, and confirm the deposit transaction. The contract holds the ETH and emits the payment ID.
+1. **Create a payment.** Connect MetaMask or unlock your GhostPay wallet, choose an amount and expiry, and confirm the deposit transaction. The contract holds the ETH and emits the payment ID.
 2. **Share the link.** Send the generated `/pay/<id>` URL to the intended recipient.
 3. **Request a claim.** The recipient connects their wallet and signs a message proving wallet control. The relay records the request.
 4. **Verify and approve.** The sender confirms the person and full wallet address through a trusted channel, then signs a wallet-bound EIP-712 authorization.
@@ -76,7 +96,9 @@ There is no protocol fee in the current escrow contract. Ethereum network gas st
 ```mermaid
 flowchart LR
     U[Sender and recipient] --> F[React frontend on Vercel]
-    F --> W[MetaMask]
+    F --> W[MetaMask or device-local wallet]
+    F -->|Encrypted room events and media| M[Matrix homeserver - configuration pending]
+    M <-->|Federation| O[Other Matrix homeservers]
     W -->|Deposit / claim / refund| C[GhostPayEscrow on Sepolia]
     F -->|Requests and signed approvals| G[Vercel Node API gateway]
     G --> R[Hosted Cloudflare Worker relay]
@@ -162,6 +184,8 @@ An optional `npm run deploy` CLI flow is also available. It requires `SEPOLIA_PR
 | `npm run compile` | Compile the escrow |
 | `npm run build` | Build contracts, local backend, and frontend |
 | `npm test` | Run contract and local relay/deployment tests |
+| `npm run test:messenger` | Validate payment cards, server URLs, encrypted vault and signing confirmations |
+| `npm run sync:vercel` | Replace the Vercel asset snapshot from the completed frontend build |
 | `npm run check:sepolia` | Check the live RPC and saved contract code |
 | `npm run deploy` | Optional Sepolia contract deployment from the CLI |
 
@@ -198,7 +222,7 @@ The local setup relay additionally exposes `GET /api/deployment/artifact` and `P
 
 ## Tests and verification
 
-The most recent local run passed **48 automated tests**:
+The existing payment regression suites passed **48 automated tests**. The new messenger/wallet suite also passes (12 tests reported by Node, including its parent suite):
 
 | Suite | Tests | Scope |
 | --- | ---: | --- |
@@ -232,14 +256,17 @@ Worker storage tests use an SQLite adapter; deployment-registration tests use mo
 - **Timing:** payment expiry is limited to 1 minute–30 days at creation. Claims stop at payment expiry. Dashboard approvals last at most 15 minutes, bounded by payment expiry.
 - **Service trust:** the relay cannot forge sender authorization, but it can hide or delay requests. A compromised interface can mislead someone into signing; inspect wallet prompts and use trusted URLs.
 - **Availability:** the public RPC and hosted relay can fail or rate-limit. Vercel gateway traffic shares upstream egress-IP quotas. Local relay records are lost on restart; hosted D1 records persist.
-- **Scope:** ETH-only, Sepolia-only, no sponsored claim gas, and a MetaMask-oriented wallet experience. No privacy guarantees, dispute arbitration, or reversal of completed transfers.
+- **Scope:** ETH-only, Sepolia-only, no sponsored claim gas. On-chain payments and relay request records are public even when their chat message is encrypted. No dispute arbitration or reversal of completed transfers.
+- **Device wallet:** browser JavaScript can access the key while unlocked. The wallet auto-locks after five minutes without a wallet operation; keep an encrypted backup and its password separately. Clearing browser data without a backup loses access. Google cannot recover it. This experimental wallet is restricted to the configured Sepolia escrow.
+- **Messaging:** Matrix protects room content when configured correctly; servers can observe metadata. Preview mode is not encrypted or delivered. Full device verification and encrypted recovery setup remain unfinished.
 - **Production readiness:** experimental and unaudited. Event indexing, broader wallet compatibility, operational hardening, and independent security review remain future work.
 
 ## Roadmap — proposals, not implemented
 
 - [ ] Sender-sponsored claim gas for recipients with zero ETH.
 - [ ] Contract-level approval revocation and safe replacement-wallet authorization.
-- [ ] A clear signing preview and recipient verification fingerprints.
+- [x] Clear confirmation prompts in the device-local wallet.
+- [ ] Verified Matrix-to-wallet identity binding and recipient verification fingerprints.
 - [ ] A relay-independent rescue flow for existing signed approvals.
 - [ ] Optional guardian approvals and explicit cancellation windows.
 - [ ] Outcome-bound contributor bounties with a documented external-attestation trust model.
@@ -250,7 +277,9 @@ Some items require a new contract deployment and additional security testing. Th
 
 ```text
 contracts/      Solidity escrow, Hardhat configuration, deployment script, tests
-frontend/       React application, wallet flows, dashboard, Three.js scene
+frontend/       Messenger, Matrix adapter, encrypted wallet, payment pages, Three.js scene
+infra/matrix/   Self-hosted messaging and Google OIDC setup
+docs/           Messenger architecture and activation guide
 server/         Local Express relay and deployment verification
 shared/         ABI, EIP-712 protocol, network constants, chain clock
 deployments/    Public Sepolia deployment manifest
@@ -262,6 +291,6 @@ STATUS.md       Recorded verification and remaining limits
 
 ## Acknowledgements
 
-Built with OpenZeppelin, Ethereum, Hardhat, React, wagmi, viem, Three.js, Cloudflare, and Vercel. Self-hosted font license files are retained under [`frontend/public/licenses`](frontend/public/licenses).
+Built with Matrix, Synapse, OpenZeppelin, Ethereum, Hardhat, React, wagmi, viem, ethers, Three.js, Cloudflare, and Vercel. Self-hosted font license files are retained under [`frontend/public/licenses`](frontend/public/licenses).
 
 Created by [Prem Bharne](https://github.com/prembharne).

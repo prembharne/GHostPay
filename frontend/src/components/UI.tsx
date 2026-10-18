@@ -10,7 +10,7 @@ export function Busy({ children }: {children: React.ReactNode}) { return <><Load
 export function NetworkGate() {
   const { address, chainId } = useAccount(); const { switchChain, error } = useSwitchChain();
   if (!deployed) return <div className="feedback neutral">{deploymentIssue || 'GhostPay is not deployed on Sepolia yet.'} <Link className="text-button" to="/setup">Open Sepolia setup ↗</Link></div>;
-  if (!address) return <div className="feedback neutral"><WalletSmall/>Connect your MetaMask wallet to continue. Test ETH only.</div>;
+  if (!address) return <div className="feedback neutral"><WalletSmall/>Create a GhostPay wallet or connect MetaMask to continue. Test ETH only.</div>;
   if (chainId !== chain.id) return <div className="feedback error">Connect to Ethereum Sepolia (11155111). <button className="text-button" onClick={() => switchChain({ chainId: chain.id })}>Switch network</button>{error && <span>{error.message.slice(0, 140)}</span>}</div>;
   return null;
 }

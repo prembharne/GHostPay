@@ -1,4 +1,19 @@
-# GhostPay — current verification state
+# GhostPay - current verification state
+
+## Messenger release - 2026-10-18
+
+- Public messenger: https://ghostpay-lac.vercel.app/chat. Production deployment `dpl_HqDRzyjXwfhTXb23ydPfFVzK7i42` built through the Vercel CLI. Final checks include HTTP 200 for chat/payment/dashboard deep links, deployment/health APIs, JavaScript assets and correctly served Rust crypto WASM. These are availability checks, not live chat/financial lifecycle verification.
+
+- Built `/chat` as a responsive messenger matching the landing page’s monochrome design. Desktop and 390px mobile layouts were visually inspected on the public Vercel deployment. Preview text entry, local persistence, the payment composer, wallet onboarding, settings connection dialog and embedded payment dashboard were exercised without transmitting messages or signing transactions.
+- Preview contacts are fictional and local messages are explicitly labeled as not delivered or encrypted. There is no configured Matrix homeserver or Google OAuth provider yet.
+- Implemented a real Matrix SDK adapter with Rust crypto, encrypted private rooms/groups, invitations, sync, replies, receipts/typing, bounded authenticated media downloads and encrypted file uploads. Server federation, Google sign-in, actual encrypted delivery and microphone capture are unverified until the server and user configuration are available.
+- Added an opt-in device-local self-custodial Ethereum wallet. It uses encrypted JSON storage, explicit confirmations, five-minute idle locking, profile isolation and restricted Sepolia escrow signing. MetaMask remains supported. Wallet backup and its password are required for recovery; Google cannot recover it. This is experimental, unaudited browser wallet code.
+- Payment contract and hosted relay remain unchanged. Chat cards reference actual on-chain IDs, and the composer preserves a submitted transaction/funded payment when retrying within the open dialog. A live two-wallet deposit/approval/claim/refund walkthrough has not been performed.
+- `npm run build` passed. Existing 22 contract + 17 server + 5 Worker + 4 gateway regression tests passed. The initial Worker attempt lacked its generated bundle; rebuilding the Worker resolved it and all five checks then passed. New messenger/wallet checks pass separately through `npm run test:messenger` (12 reported by Node, including the parent suite). Added a regression for a profile switch during asynchronous decryption; the test exposed a stale record read, which was fixed and rerun successfully.
+- Matrix generator smoke checks passed for valid YAML, Google stable-subject mapping, nonprinted generated secrets, refusal to overwrite and nonpublic database/service bindings. Docker is unavailable here, so the prepared Synapse/PostgreSQL/Caddy stack has not been started.
+- Calling, background push, full device verification/key-backup setup, native apps and complete WhatsApp parity remain unfinished. See `docs/MESSENGER.md` and `infra/matrix/README.md`.
+
+## Earlier payment deployment record (historical)
 
 ## Public hosting
 

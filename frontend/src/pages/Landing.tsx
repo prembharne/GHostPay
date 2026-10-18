@@ -116,7 +116,7 @@ export function Landing() {
             <a href="#benefits" className="gp-nav-pill gp-appear gp-appear--scale" style={delay('.16s')} onClick={event => openPanel(event, 'benefits')}>Benefits</a>
             <a href="#how-it-works" className="gp-nav-pill gp-appear gp-appear--soft" style={delay('.28s')} onClick={event => openPanel(event, 'how-it-works')}>How it works</a>
             <a href="#faqs" className="gp-nav-pill gp-appear gp-appear--scale" style={delay('.40s')} onClick={event => openPanel(event, 'faqs')}>FAQs</a>
-            <Link to="/dashboard" className="gp-nav-pill gp-appear gp-appear--soft" style={delay('.52s')} onClick={() => setMenuOpen(false)}>My payments</Link>
+            <Link to="/chat" className="gp-nav-pill gp-appear gp-appear--soft" style={delay('.52s')} onClick={() => setMenuOpen(false)}>Messenger</Link>
           </nav>
           <div className="gp-header-wallet gp-appear gp-appear--scale" style={delay('.34s')}><Wallet /></div>
           <button ref={burgerRef} type="button" className="gp-burger gp-appear gp-appear--scale" style={delay('.34s')} aria-controls="site-nav" aria-expanded={menuOpen} aria-label={menuOpen ? 'Close menu' : 'Open menu'} onClick={() => setMenuOpen(!menuOpen)}><span /><span /><span /></button>
@@ -131,7 +131,7 @@ export function Landing() {
             </h1>
             <p className="gp-lede gp-appear gp-appear--soft" style={{ ...delay('.82s'), animationDuration: '1.25s' }}>Send ETH without a recipient address upfront.<br className="gp-desktop-break" /> Share a link. Approve their wallet. Let them claim.</p>
             <div className="gp-actions">
-              <Link className="gp-btn gp-btn-solid gp-appear gp-appear--btn" style={delay('.96s')} to="/create">Create payment</Link>
+              <Link className="gp-btn gp-btn-solid gp-appear gp-appear--btn" style={delay('.96s')} to="/chat">Open messenger</Link>
               <Link className="gp-btn gp-btn-ghost gp-appear gp-appear--side" style={delay('1.10s')} to="/dashboard">View my payments</Link>
             </div>
           </div>

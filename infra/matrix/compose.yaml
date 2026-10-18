@@ -1,0 +1,68 @@
+name: ghostpay-matrix
+services:
+  permissions:
+    image: ghcr.io/element-hq/synapse:v1.163.0
+    user: '0:0'
+    entrypoint: [/bin/sh, -c]
+    command: ['chown "$${MATRIX_UID}:$${MATRIX_GID}" /data']
+    environment:
+      MATRIX_UID: ${MATRIX_UID:-991}
+      MATRIX_GID: ${MATRIX_GID:-991}
+    volumes:
+      - synapse_data:/data
+    network_mode: none
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: synapse
+      POSTGRES_USER: synapse
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Run configure.mjs first}
+      POSTGRES_INITDB_ARGS: --encoding=UTF8 --locale=C
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U synapse -d synapse]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [matrix]
+  synapse:
+    image: ghcr.io/element-hq/synapse:v1.163.0
+    restart: unless-stopped
+    depends_on:
+      permissions:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+    environment:
+      SYNAPSE_CONFIG_PATH: /data/homeserver.yaml
+      UID: ${MATRIX_UID:-991}
+      GID: ${MATRIX_GID:-991}
+    volumes:
+      - ./generated/homeserver.yaml:/data/homeserver.yaml:ro
+      - ./log.config:/data/log.config:ro
+      - synapse_data:/data
+    networks: [matrix]
+  caddy:
+    image: caddy:2-alpine
+    restart: unless-stopped
+    depends_on: [synapse]
+    environment:
+      MATRIX_SERVER_NAME: ${MATRIX_SERVER_NAME:?Run configure.mjs first}
+    ports:
+      - 80:80
+      - 443:443
+      - 443:443/udp
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: [matrix]
+networks:
+  matrix:
+volumes:
+  postgres_data:
+  synapse_data:
+  caddy_data:
+  caddy_config:

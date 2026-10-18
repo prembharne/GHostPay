@@ -2,6 +2,8 @@ import { createConfig, http, injected } from 'wagmi';
 import { sepolia } from 'wagmi/chains';
 import { isAddress, zeroAddress, type Address } from 'viem';
 import { SEPOLIA_RPC_URL, SEPOLIA_EXPLORER } from '../../../shared/network';
+import { ghostWallet } from '../wallet/connector';
+import { setAllowedEscrow } from '../wallet/vault';
 export { escrowAbi } from '../../../shared/abi';
 export { claimDomain, claimTypes, requestMessage, rejectMessage } from '../../../shared/protocol';
 export let contractAddress: Address = zeroAddress;
@@ -15,7 +17,7 @@ export function configureDeployment(data: { address?: string; chainId?: number; 
   if (data.chainId !== chain.id) throw new Error('The relay is not configured for Ethereum Sepolia.');
   if (!data.configured) return;
   if (!isAddress(data.address || '') || data.address === zeroAddress || !/^\d+$/.test(data.blockNumber || '')) throw new Error('Invalid Sepolia deployment configuration.');
-  contractAddress = data.address as Address; deploymentBlock = BigInt(data.blockNumber!); deployed = true;
+  contractAddress = data.address as Address; deploymentBlock = BigInt(data.blockNumber!); deployed = true; setAllowedEscrow(contractAddress);
 }
 export function setDeploymentIssue(message: string) { deploymentIssue = message; }
-export const config = createConfig({ chains: [chain], connectors: [injected({ target: 'metaMask' })], transports: { [chain.id]: http(browserRpcUrl, { timeout: 20000, retryCount: 2 }) } });
+export const config = createConfig({ chains: [chain], connectors: [injected({ target: 'metaMask' }), ghostWallet()], transports: { [chain.id]: http(browserRpcUrl, { timeout: 20000, retryCount: 2 }) } });

@@ -8,10 +8,15 @@ import { PaymentPage } from './pages/PaymentPage';
 import { Dashboard } from './pages/Dashboard';
 import { Setup } from './pages/Setup';
 import { deployed } from './config/web3';
+import { lazy, Suspense } from 'react';
+const Messenger = lazy(() => import('./messenger/Messenger'));
+const WalletApprovalHost = lazy(() => import('./wallet/WalletDialog').then(module => ({ default: module.WalletApprovalHost })));
 
-export default function App() {
+export default function App() { return <><Suspense fallback={null}><WalletApprovalHost/></Suspense><AppRoutes/></>; }
+function AppRoutes() {
   const { pathname } = useLocation();
   if (pathname === '/') return <Landing />;
+  if (pathname === '/chat' || pathname.startsWith('/chat/')) return <Suspense fallback={<div style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', background: '#080809', color: '#bdbdc4', fontFamily: 'Inter, sans-serif', fontSize: 13 }}>Opening your conversations…</div>}><Messenger/></Suspense>;
 
   return <div className="workspace">
     <div className="workspace-photo" aria-hidden="true" />
@@ -24,6 +29,7 @@ export default function App() {
           <span>Ghost<span className="gp-logo-suffix">Pay</span></span>
         </Link>
         <nav className="workspace-nav" aria-label="Main navigation">
+          <NavLink className="gp-nav-pill" to="/chat">Messenger</NavLink>
           <NavLink className="gp-nav-pill" to="/" end>Overview</NavLink>
           <NavLink className="gp-nav-pill" to="/create">Create payment</NavLink>
           <NavLink className="gp-nav-pill" to="/dashboard">My payments</NavLink>
