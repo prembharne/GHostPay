@@ -13,6 +13,10 @@
 - Matrix generator smoke checks passed for valid YAML, Google stable-subject mapping, nonprinted generated secrets, refusal to overwrite and nonpublic database/service bindings. Docker is unavailable here, so the prepared Synapse/PostgreSQL/Caddy stack has not been started.
 - Calling, background push, full device verification/key-backup setup, native apps and complete WhatsApp parity remain unfinished. See `docs/MESSENGER.md` and `infra/matrix/README.md`.
 
+## Dependency follow-up - 2026-10-18
+
+The root workspace audit initially reported 23 findings (1 high, 22 moderate). The affected nested `viem@2.23.2` transport now resolves `ws@8.21.0` through a scoped override. This uses the [upstream patched version](https://github.com/advisories/GHSA-96hv-2xvq-fx4p), preserving the existing wallet API rather than forcing a major wagmi migration. A fresh root audit reports 21 moderate, zero high and zero critical findings. These counts do not cover the separate hosting dependency trees and do not establish exploitability or absence of other issues. Remaining legacy connector advisories need a controlled dependency migration. No blanket `audit fix --force` was applied.
+
 ## Earlier payment deployment record (historical)
 
 ## Public hosting

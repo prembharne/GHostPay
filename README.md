@@ -259,6 +259,7 @@ Worker storage tests use an SQLite adapter; deployment-registration tests use mo
 - **Scope:** ETH-only, Sepolia-only, no sponsored claim gas. On-chain payments and relay request records are public even when their chat message is encrypted. No dispute arbitration or reversal of completed transfers.
 - **Device wallet:** browser JavaScript can access the key while unlocked. The wallet auto-locks after five minutes without a wallet operation; keep an encrypted backup and its password separately. Clearing browser data without a backup loses access. Google cannot recover it. This experimental wallet is restricted to the configured Sepolia escrow.
 - **Messaging:** Matrix protects room content when configured correctly; servers can observe metadata. Preview mode is not encrypted or delivered. Full device verification and encrypted recovery setup remain unfinished.
+- **Dependencies:** the root workspace audit currently retains 21 moderate findings after patching the reported high-severity transport issue. See [`STATUS.md`](STATUS.md); this is not a clean security audit.
 - **Production readiness:** experimental and unaudited. Event indexing, broader wallet compatibility, operational hardening, and independent security review remain future work.
 
 ## Roadmap — proposals, not implemented
