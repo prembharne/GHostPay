@@ -1,10 +1,11 @@
 import { randomBytes } from 'node:crypto';
-import { mkdir, writeFile, access, chown } from 'node:fs/promises';
+import { mkdir, writeFile, access, chown, copyFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-const root = fileURLToPath(new URL('.', import.meta.url));
+const templates = fileURLToPath(new URL('.', import.meta.url));
 const args = process.argv.slice(2);
 const get = flag => { const i = args.indexOf(flag); return i >= 0 ? args[i + 1] : undefined; };
+const root = resolve(get('--output') || templates);
 const server = get('--server');
 const app = get('--app') || 'https://ghostpay-lac.vercel.app';
 if (!server || !/^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z]{2,63}$/i.test(server)) throw new Error('Pass --server matrix.your-domain.com. Use a hostname you control.');
@@ -15,7 +16,8 @@ const callerUid = typeof process.getuid === 'function' ? process.getuid() : 991;
 const callerGid = typeof process.getgid === 'function' ? process.getgid() : 991;
 const matrixUid = callerUid === 0 ? 991 : callerUid;
 const matrixGid = callerUid === 0 ? 991 : callerGid;
-for (const path of [configPath, resolve(root, '.env')]) {
+const bundle = ['compose.yaml', 'Caddyfile', 'log.config', 'deploy.sh', 'check.mjs', 'README.md'];
+for (const path of [configPath, resolve(root, '.env'), ...(root !== resolve(templates) ? bundle.map(name => resolve(root, name)) : [])]) {
   try { await access(path); throw new Error('Configuration already exists. Back it up and edit it deliberately instead of regenerating server secrets.'); } catch (e) { if (e.code !== 'ENOENT') throw e; }
 }
 const secret = () => randomBytes(36).toString('hex'); const databasePassword = secret();
@@ -28,6 +30,7 @@ report_stats: false
 enable_registration: false
 enable_registration_without_verification: false
 enable_media_repo: true
+url_preview_enabled: false
 max_upload_size: 16M
 media_store_path: /data/media_store
 signing_key_path: /data/server.signing.key
@@ -78,10 +81,12 @@ if (process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_SECRET) {
         email_template: '{{ user.email }}'
 `;
 }
-await mkdir(resolve(root, 'generated'), { recursive: true });
+await mkdir(resolve(root, 'generated'), { recursive: true, mode: 0o700 });
+if (root !== resolve(templates)) for (const name of bundle) await copyFile(resolve(templates, name), resolve(root, name), 1);
 await writeFile(configPath, config, { mode: 0o600, flag: 'wx' });
 if (callerUid === 0 && process.platform !== 'win32') await chown(configPath, matrixUid, matrixGid);
 await writeFile(resolve(root, '.env'), `MATRIX_SERVER_NAME=${server}\nPOSTGRES_PASSWORD=${databasePassword}\nMATRIX_UID=${matrixUid}\nMATRIX_GID=${matrixGid}\n`, { mode: 0o600, flag: 'wx' });
 console.log('Created private Matrix configuration. No secrets were printed. Keep generated/ and .env out of Git.');
 console.log(`Google callback to register: https://${server}/_synapse/client/oidc/callback`);
-console.log('Point the hostname at your server, then run docker compose up -d from this directory.');
+console.log(`Deployment bundle: ${root}`);
+console.log('Point the hostname at your server, then run bash deploy.sh from the bundle directory.');

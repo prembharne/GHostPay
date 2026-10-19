@@ -14,6 +14,7 @@ services:
   postgres:
     image: postgres:17-alpine
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     environment:
       POSTGRES_DB: synapse
       POSTGRES_USER: synapse
@@ -30,6 +31,7 @@ services:
   synapse:
     image: ghcr.io/element-hq/synapse:v1.163.0
     restart: unless-stopped
+    security_opt: [no-new-privileges:true]
     depends_on:
       permissions:
         condition: service_completed_successfully
@@ -43,11 +45,20 @@ services:
       - ./generated/homeserver.yaml:/data/homeserver.yaml:ro
       - ./log.config:/data/log.config:ro
       - synapse_data:/data
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://localhost:8008/health', timeout=5)"]
+      interval: 15s
+      timeout: 8s
+      retries: 20
+      start_period: 30s
     networks: [matrix]
   caddy:
     image: caddy:2-alpine
     restart: unless-stopped
-    depends_on: [synapse]
+    security_opt: [no-new-privileges:true]
+    depends_on:
+      synapse:
+        condition: service_healthy
     environment:
       MATRIX_SERVER_NAME: ${MATRIX_SERVER_NAME:?Run configure.mjs first}
     ports:

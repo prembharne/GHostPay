@@ -1,0 +1,25 @@
+import {readFile,writeFile} from 'node:fs/promises';
+import {spawnSync} from 'node:child_process';
+import {resolve,relative,join} from 'node:path';
+import {fileURLToPath} from 'node:url';
+import {createHash} from 'node:crypto';
+import {keccak256} from 'viem';
+const root=fileURLToPath(new URL('..',import.meta.url));
+const sourcePath='contracts/contracts/GhostPayCommunity.sol';
+const output=resolve(root,'docs/community-slither.json');
+const solc=process.env.SOLC_PATH||join(process.env.LOCALAPPDATA||'', 'hardhat-nodejs/Cache/compilers-v3/windows-amd64/solc-windows-amd64-v0.8.28+commit.7893614a.exe');
+const r=spawnSync('slither',[sourcePath,'--solc',process.platform==='win32'?solc:process.env.SOLC_PATH||'solc','--solc-args','--optimize --optimize-runs 200 --evm-version paris','--json','-'],{cwd:root,encoding:'utf8',maxBuffer:8*1024*1024,shell:false});
+if(r.error)throw new Error('Install Slither and Solidity 0.8.28 first; set SOLC_PATH to your compiler. '+r.error.message);
+let report;try{report=JSON.parse(r.stdout);}catch{throw new Error('Slither did not produce JSON. '+r.stderr.slice(-1500));}
+if(!report.success)throw new Error('Static analysis failed: '+report.error);
+const clean=value=>{if(Array.isArray(value))return value.map(clean);if(value&&typeof value==='object')return Object.fromEntries(Object.entries(value).map(([k,v])=>[k,clean(v)]));if(typeof value==='string'){const normalized=value.split(String.fromCharCode(92)).join('/');return normalized.replaceAll(root.split(String.fromCharCode(92)).join('/'),'');}return value;};
+report=clean(report);
+const source=await readFile(resolve(root,sourcePath));
+const artifact=JSON.parse(await readFile(resolve(root,'contracts/artifacts/contracts/GhostPayCommunity.sol/GhostPayCommunity.json'),'utf8'));
+report.ghostpay={reviewType:'Internal tool-assisted review; no independent audit',source:sourcePath,sourceSha256:createHash('sha256').update(source).digest('hex'),compiler:'0.8.28',optimizerRuns:200,evmVersion:'paris',creationKeccak256:keccak256(artifact.bytecode),runtimeKeccak256:keccak256(artifact.deployedBytecode),slitherVersion:spawnSync('slither',['--version'],{encoding:'utf8'}).stdout.trim()};
+await writeFile(output,JSON.stringify(report,null,2)+'\n');
+const counts={};for(const f of report.results.detectors)counts[f.impact]=(counts[f.impact]||0)+1;
+console.log(JSON.stringify({sourceSha256:report.ghostpay.sourceSha256,detectors:counts,report:relative(root,output)},null,2));
+if(report.results.detectors.some(f=>['High','Medium'].includes(f.impact)))throw new Error('High/medium static findings require review before release.');
+const review=await readFile(resolve(root,'docs/COMMUNITY-SECURITY-REVIEW.md'),'utf8');
+for(const key of ['sourceSha256','creationKeccak256','runtimeKeccak256'])if(!review.includes(report.ghostpay[key]))throw new Error('The reviewed source/bytecode changed. Update the security review and its hashes before release.');

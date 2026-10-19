@@ -1,5 +1,7 @@
 * text=auto
 *.sh text eol=lf
+# Preserve the exact reviewed bytes used for the public contract artifact/hash.
+contracts/contracts/GhostPayCommunity.sol -text
 public-site/frontend-dist/** -text linguist-generated=true
 vercel-site/public/** -text linguist-generated=true
 package-lock.json linguist-generated=true

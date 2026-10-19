@@ -10,7 +10,12 @@
     header Access-Control-Allow-Origin "*"
     respond "{\"m.homeserver\":{\"base_url\":\"https://{$MATRIX_SERVER_NAME}\"}}" 200
   }
-  handle {
+  # Admin APIs, metrics and internal health endpoints stay off the public proxy.
+  @matrix_api path /_matrix/* /_synapse/client/*
+  handle @matrix_api {
     reverse_proxy synapse:8008
+  }
+  handle {
+    respond "Not found" 404
   }
 }

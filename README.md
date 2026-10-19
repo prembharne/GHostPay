@@ -38,6 +38,12 @@ See [`docs/MESSENGER.md`](docs/MESSENGER.md) for architecture, wallet boundaries
 
 ![GhostPay messenger desktop preview](docs/messenger-desktop.png)
 
+## Deployment setup and security review
+
+No live Matrix server/domain has been provisioned. The messenger connection dialog now includes a deployment checklist; [the portable server bundle](infra/matrix/README.md) generates private configuration, starts health-checked Synapse/PostgreSQL/HTTPS and probes CORS/discovery/login/admin exposure. Google chat login is optional; test accounts work without it. Reown’s Google wallet onboarding is separate and does not require a Google Wallet product/account.
+
+The community contract has an [internal security review](docs/COMMUNITY-SECURITY-REVIEW.md), adversarial/accounting tests and [Slither output](docs/community-slither.json). It has **not received an independent audit**. New funding uses the reviewed artifact; existing original community contracts retain verified claim/refund support. No public community deployment was performed by the agent.
+
 ## Wallets, usernames and community payouts
 
 Open **Your profile** in the messenger or **My wallet** on the payment page. Reown AppKit offers Google, email and connected wallets. GhostPay does not create or store private keys on its backend. Reserve a unique public `@username` by signing a wallet-ownership statement, or request an automatically generated name. Each wallet has one permanent username; these are **GhostPay directory names, not ENS domains**.
@@ -264,7 +270,7 @@ The local setup relay additionally exposes `GET /api/deployment/artifact` and `P
 
 ## Tests and verification
 
-The current suites pass **55 contract tests**, **25 frontend/messenger/wallet reports** (including the parent suite), **17 server tests**, **11 Worker/hosting tests** and **four gateway tests**:
+The current suites pass **61 contract tests**, **26 frontend/messenger/wallet reports** (including the parent suite), **17 server tests**, **11 Worker/hosting tests** and **four gateway tests**, plus **six Matrix setup checks**:
 
 | Suite | Tests | Scope |
 | --- | ---: | --- |
