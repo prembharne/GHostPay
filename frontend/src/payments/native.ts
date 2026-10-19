@@ -18,14 +18,27 @@ export function nativeClient(id: number) {
   return clients.get(id)!;
 }
 export async function checkRpc(id: number) { if (await nativeClient(id).getChainId() !== id) throw new Error('The public RPC returned a different chain. No transaction will be signed.'); }
-export async function verifyNativeEscrow(id: number, address: string) {
+export async function verifyNativeEscrow(id: number, address: string, creationHash?: string) {
   requireTestnet(id); const contract = getAddress(address); await checkRpc(id);
   const [artifact, code] = await Promise.all([nativeArtifact(), nativeClient(id).getCode({ address: contract })]);
   if (!code || code.toLowerCase() !== artifact.deployedBytecode.toLowerCase()) throw new Error('This address does not contain the exact GhostPay native escrow contract.');
   const domainId = await nativeClient(id).readContract({ address: contract, abi: nativeAbi, functionName: 'domainChainId' });
   if (domainId !== BigInt(id)) throw new Error('Escrow signing domain does not match this testnet.');
+  if (creationHash) await verifyCreation(id, contract, creationHash, artifact.bytecode);
   return contract;
 }
+// Runtime alone cannot attest storage initialized by arbitrary deployment code.
+export async function verifyCreation(id: number, address: Address, hash: string, bytecode: Hex) {
+  requireTestnet(id); await checkRpc(id); if (!/^0x[\da-fA-F]{64}$/.test(hash)) throw new Error('Provide the contract creation transaction hash.');
+  const client = nativeClient(id);
+  const [transaction, receipt, head] = await Promise.all([client.getTransaction({ hash: hash as Hex }), client.getTransactionReceipt({ hash: hash as Hex }), client.getBlockNumber()]);
+  if (transaction.to !== null || transaction.input.toLowerCase() !== bytecode.toLowerCase() || receipt.status !== 'success' || receipt.contractAddress?.toLowerCase() !== address.toLowerCase()) throw new Error('Creation transaction does not match the trusted GhostPay deployment code and address.');
+  if (head < receipt.blockNumber + 1n) throw new Error('Wait for two deployment confirmations and verify again.');
+  if ((await client.getBlock({ blockNumber: receipt.blockNumber })).hash !== receipt.blockHash) throw new Error('The deployment block changed. Verify the canonical creation transaction again.');
+  return address;
+}
+export function rememberedCreation(id: number, address: string): string { try { return JSON.parse(localStorage.getItem('ghostpay.native.creation.v1') || '{}')[`${id}:${address.toLowerCase()}`] || ''; } catch { return ''; } }
+function saveCreation(id: number, address: string, hash: string) { let previous = {}; try { previous = JSON.parse(localStorage.getItem('ghostpay.native.creation.v1') || '{}'); } catch {} localStorage.setItem('ghostpay.native.creation.v1', JSON.stringify({ ...previous, [`${id}:${address.toLowerCase()}`]: hash })); }
 export async function testnetWallet(id: number, provider: EIP1193Provider, expectedAccount: Address) {
   const network = requireTestnet(id); await checkRpc(id); const hex = `0x${id.toString(16)}`;
   if (Number(await provider.request({ method: 'eth_chainId' })) !== id) {
@@ -43,9 +56,10 @@ export async function testnetWallet(id: number, provider: EIP1193Provider, expec
 }
 const deploymentsKey = 'ghostpay.native.escrows.v2';
 export function rememberedEscrow(id: number): string { try { const value = JSON.parse(localStorage.getItem(deploymentsKey) || '{}'); return typeof value[id] === 'string' ? value[id] : ''; } catch { return ''; } }
-export function rememberEscrow(id: number, contract: Address) {
+export function rememberEscrow(id: number, contract: Address, creationHash?: string) {
   let previous = {}; try { previous = JSON.parse(localStorage.getItem(deploymentsKey) || '{}'); } catch {}
   localStorage.setItem(deploymentsKey, JSON.stringify({ ...previous, [id]: contract }));
+  if (creationHash) saveCreation(id, contract, creationHash);
 }
 export interface NativeHistory extends NativeReference { hash: Hex; account: Address; createdAt: number }
 export function nativeHistory(): NativeHistory[] { try { const value = JSON.parse(localStorage.getItem('ghostpay.native.payments.v2') || '[]'); return Array.isArray(value) ? value.filter(item => nativeReference(item) && typeof item.hash === 'string' && /^0x[\da-fA-F]{64}$/.test(item.hash) && typeof item.account === 'string' && /^0x[\da-fA-F]{40}$/.test(item.account) && Number.isFinite(item.createdAt)).slice(0, 200) : []; } catch { return []; } }

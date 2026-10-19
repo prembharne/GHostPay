@@ -11,7 +11,7 @@ export const nativeAbi = parseAbi([
   'event PaymentClaimed(uint256 indexed paymentId,address indexed recipient,uint256 amount)',
   'event PaymentRefunded(uint256 indexed paymentId,address indexed sender,uint256 amount)',
 ]);
-export interface NativeReference { version: 2; chainId: number; contract: string; paymentId: string }
+export interface NativeReference { version: 2; chainId: number; contract: string; paymentId: string; deploymentHash?: string }
 export const nativeClaimTypes = { ClaimAuthorization: [{ name: 'paymentId', type: 'uint256' }, { name: 'recipient', type: 'address' }, { name: 'deadline', type: 'uint256' }] } as const;
 export const nativeRequestTypes = { ClaimRequest: [{ name: 'paymentId', type: 'uint256' }, { name: 'recipient', type: 'address' }, { name: 'requestedAt', type: 'uint256' }] } as const;
 export const nativeDomain = (reference: NativeReference) => ({ name: 'GhostPay', version: '2', chainId: reference.chainId, verifyingContract: getAddress(reference.contract) } as const);
@@ -25,9 +25,10 @@ export function nativeReference(value: unknown): NativeReference | undefined {
   if (!value || typeof value !== 'object') return;
   const input = value as Record<string, unknown>;
   if (input.version !== 2 || !Number.isSafeInteger(input.chainId) || !networkById(Number(input.chainId)) || typeof input.contract !== 'string' || !isAddress(input.contract) || input.contract.toLowerCase() === zeroAddress || !validId(input.paymentId)) return;
-  return { version: 2, chainId: Number(input.chainId), contract: getAddress(input.contract), paymentId: input.paymentId };
+  if (input.deploymentHash !== undefined && (typeof input.deploymentHash !== 'string' || !/^0x[\da-fA-F]{64}$/.test(input.deploymentHash))) return;
+  return { ...(input.deploymentHash ? { deploymentHash: input.deploymentHash as string } : {}), version: 2, chainId: Number(input.chainId), contract: getAddress(input.contract), paymentId: input.paymentId };
 }
-export function nativePath(ref: NativeReference) { if (!nativeReference(ref)) throw new Error('Invalid payment reference.'); return `/pay/v2/${ref.chainId}/${getAddress(ref.contract)}/${ref.paymentId}`; }
+export function nativePath(ref: NativeReference) { if (!nativeReference(ref)) throw new Error('Invalid payment reference.'); return `/pay/v2/${ref.chainId}/${getAddress(ref.contract)}/${ref.paymentId}${ref.deploymentHash ? `?deployment=${ref.deploymentHash}` : ''}`; }
 export interface NativeEnvelope extends NativeReference { recipient: Address; signature: `0x${string}`; deadline?: string; requestedAt?: string }
 export function parseEnvelope(encoded: string, kind: 'request' | 'authorization', expected: NativeReference): NativeEnvelope {
   if (encoded.length > 3000) throw new Error('Payment proof is too large.');

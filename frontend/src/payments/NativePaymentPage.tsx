@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { formatUnits, getAddress, type Hex } from 'viem';
 import { ArrowDownLeft, ArrowLeft, ArrowUpRight, Check, Copy, ExternalLink, Link2, LoaderCircle, LockKeyhole, ShieldCheck, Wallet } from 'lucide-react';
@@ -10,15 +10,15 @@ import { useNativeWallet } from './useNativeWallet';
 import './payments.css';
 
 export function useNativePayment(reference: NativeReference) {
-  return useQuery({ queryKey: ['native-payment', reference.chainId, reference.contract.toLowerCase(), reference.paymentId], queryFn: async () => {
-    const address = await verifyNativeEscrow(reference.chainId, reference.contract); const client = nativeClient(reference.chainId);
+  return useQuery({ queryKey: ['native-payment', reference.chainId, reference.contract.toLowerCase(), reference.paymentId, reference.deploymentHash || 'legacy'], queryFn: async () => {
+    const address = await verifyNativeEscrow(reference.chainId, reference.contract, reference.deploymentHash); const client = nativeClient(reference.chainId);
     const [payment, block] = await Promise.all([client.readContract({ address, abi: nativeAbi, functionName: 'getPayment', args: [BigInt(reference.paymentId)] }), client.getBlock()]);
     return { payment, now: block.timestamp };
   }, retry: 0, refetchInterval: 15000, staleTime: 10000 });
 }
 export default function NativePaymentPage() {
-  const params = useParams();
-  const reference = nativeReference({ version: 2, chainId: Number(params.chainId), contract: params.contract, paymentId: params.paymentId });
+  const params = useParams(); const [search] = useSearchParams();
+  const reference = nativeReference({ version: 2, chainId: Number(params.chainId), contract: params.contract, paymentId: params.paymentId, ...(search.get('deployment') ? { deploymentHash: search.get('deployment') } : {}) });
   return !reference ? <div className="page empty"><ShieldCheck size={32}/><h1>This payment link is invalid.</h1><p>Only EVM testnets are enabled. Ask your sender to check the network and full link.</p><Link className="button secondary" to="/chat">Back to messenger</Link></div> : <NativePayment reference={reference}/>;
 }
 function NativePayment({ reference }: { reference: NativeReference }) {
@@ -51,7 +51,7 @@ function NativePayment({ reference }: { reference: NativeReference }) {
   }, [proofLink, p?.sender, p?.expiry, p?.status, reference.chainId, reference.contract, reference.paymentId]);
   const makeLink = (kind: 'request' | 'authorization', value: NativeEnvelope) => `${window.location.origin}${nativePath(reference)}#${kind}=${encodeURIComponent(JSON.stringify(value))}`;
   async function request() { await action.run(async () => {
-    await verifyNativeEscrow(network.id, reference.contract); const wallet = await external.wallet(); const block = await client.getBlock();
+    await verifyNativeEscrow(network.id, reference.contract, reference.deploymentHash); const wallet = await external.wallet(); const block = await client.getBlock();
     const current = await client.readContract({ address: getAddress(reference.contract), abi: nativeAbi, functionName: 'getPayment', args: [BigInt(reference.paymentId)] });
     if (current.status !== 1 || current.expiry <= block.timestamp) throw new Error('This escrow is no longer active.');
     const requestedAt = block.timestamp;
@@ -61,7 +61,7 @@ function NativePayment({ reference }: { reference: NativeReference }) {
   }); }
   async function approve() { await action.run(async () => {
     if (!verified || proof?.kind !== 'request') throw new Error('Verify this person and their full wallet address before approving.');
-    await verifyNativeEscrow(network.id, reference.contract); const wallet = await external.wallet(); const block = await client.getBlock();
+    await verifyNativeEscrow(network.id, reference.contract, reference.deploymentHash); const wallet = await external.wallet(); const block = await client.getBlock();
     const current = await client.readContract({ address: getAddress(reference.contract), abi: nativeAbi, functionName: 'getPayment', args: [BigInt(reference.paymentId)] });
     if (current.sender.toLowerCase() !== wallet.account.address.toLowerCase() || current.status !== 1 || current.expiry <= block.timestamp) throw new Error('Only the current sender can approve an active payment.');
     const deadline = current.expiry < block.timestamp + 900n ? current.expiry : block.timestamp + 900n;
@@ -72,7 +72,7 @@ function NativePayment({ reference }: { reference: NativeReference }) {
   async function transact(kind: 'claim' | 'refund') { await action.run(async () => {
     let hash = tx;
     if (!pending) {
-      await verifyNativeEscrow(network.id, reference.contract); const wallet = await external.wallet();
+      await verifyNativeEscrow(network.id, reference.contract, reference.deploymentHash); const wallet = await external.wallet();
       const block = await client.getBlock(); const current = await client.readContract({ address: getAddress(reference.contract), abi: nativeAbi, functionName: 'getPayment', args: [BigInt(reference.paymentId)] });
       if (current.status !== 1) throw new Error('This payment is no longer active.');
       if (kind === 'refund') {
@@ -98,7 +98,7 @@ function NativePayment({ reference }: { reference: NativeReference }) {
         <div className="gp-native-amount">{formatUnits(p.amount, network.decimals)}<span>{network.symbol}</span></div>
         <div className="gp-native-status"><LockKeyhole size={14}/>{p.status === 2 ? 'Claimed' : p.status === 3 ? 'Refunded' : active ? 'Held in the verified escrow' : 'Expired · refundable by sender'}</div>
         <dl className="ms-details-list"><div><dt>Sender</dt><dd>{p.sender}</dd></div><div><dt>Escrow</dt><dd>{reference.contract}</dd></div><div><dt>Expires</dt><dd>{new Date(Number(p.expiry) * 1000).toLocaleString()}</dd></div></dl>
-        <button className="ms-button ms-secondary ms-full" disabled={action.busy} onClick={() => { void action.run(async () => { await external.wallet(); }); }}><Wallet size={16}/>{external.external ? `${external.address!.slice(0, 6)}…${external.address!.slice(-4)} · ${external.chainId === network.id ? network.symbol : 'switch network'}` : 'Connect MetaMask'}</button>
+        <button className="ms-button ms-secondary ms-full" disabled={action.busy} onClick={() => { void action.run(async () => { await external.wallet(); }); }}><Wallet size={16}/>{external.external ? `${external.address!.slice(0, 6)}…${external.address!.slice(-4)} · ${external.chainId === network.id ? network.symbol : 'switch network'}` : 'Continue with Google or wallet'}</button>
         {active && !mine && proof?.kind !== 'authorization' && <button className="ms-button ms-primary ms-full" disabled={action.busy} onClick={request}>Sign a claim request<ArrowUpRight size={16}/></button>}
         {mine && active && proof?.kind === 'request' && <div className="gp-native-approval"><p className="ms-kicker">VERIFIED WALLET REQUEST</p><code>{proof.value.recipient}</code><label className="ms-check"><input type="checkbox" checked={verified} onChange={e => setVerified(e.target.checked)}/>I independently verified this person and this exact wallet.</label><button className="ms-button ms-primary ms-full" disabled={action.busy || !verified} onClick={approve}>Approve this wallet<Check size={16}/></button></div>}
         {active && proof?.kind === 'authorization' && <div className="gp-native-approval"><p className="ms-kicker">SENDER SIGNATURE VERIFIED</p><code>{proof.value.recipient}</code><p className="ms-fine">Authorized until {new Date(Number(proof.value.deadline) * 1000).toLocaleString()}.</p><button className="ms-button ms-primary ms-full" disabled={action.busy || BigInt(proof.value.deadline!) < now || !!pending && pending !== 'claim'} onClick={() => transact('claim')}>{pending === 'claim' ? 'Check submitted claim' : 'Claim to the approved wallet'}<ArrowDownLeft size={17}/></button>{BigInt(proof.value.deadline!) < now && <p className="ms-alert">This approval expired. Ask the sender to renew it while the payment is active.</p>}</div>}

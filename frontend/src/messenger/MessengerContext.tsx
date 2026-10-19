@@ -14,7 +14,7 @@ interface MessengerState {
   session?: MatrixSession; state: string; error: string; server: string; toast: string; notify: (message: string) => void;
   connect: (session: MatrixSession) => Promise<void>; disconnect: () => Promise<void>;
   send: (body: string, payment?: PaymentReference, reply?: ChatMessage) => Promise<void>;
-  upload: (file: File) => Promise<void>; createRoom: (users: string[], name?: string) => Promise<void>;
+  upload: (file: File) => Promise<void>; createRoom: (users: string[], name?: string, communityId?: string) => Promise<void>; createCommunity: (users: string[], name: string) => Promise<void>; invite: (roomId: string, user: string) => Promise<void>; rename: (roomId: string, name: string) => Promise<void>; removeMember: (roomId: string, user: string) => Promise<void>; leaveRoom: (roomId: string) => Promise<void>;
   updateRoom: (id: string, key: 'pinned' | 'muted' | 'archived') => void; remove: (message: ChatMessage) => Promise<void>;
   resetPreview: () => void; receipts: boolean; setReceipts: (value: boolean) => void;
 }
@@ -55,15 +55,27 @@ export function MessengerProvider({ children }: { children: ReactNode }) {
     append({ id: crypto.randomUUID(), roomId: activeId, sender: 'you', senderName: 'You', body: file.name, timestamp: Date.now(), own: true, state: 'local', attachment: { name: file.name, type: file.type, size: file.size, url: data } });
     notify('Attachment saved to this local preview. It was not uploaded or delivered.');
   }
-  async function createRoom(users: string[], name?: string) {
-    if (mode === 'matrix') { const id = await matrix.createRoom(users, name); setActiveId(id); return; }
+  async function createRoom(users: string[], name?: string, communityId?: string) {
+    if (mode === 'matrix') { const id = await matrix.createRoom(users, name, communityId); setActiveId(id); return; }
     const id = crypto.randomUUID(); const title = name || users[0]?.replace(/^@/, '').split(':')[0] || 'New conversation';
-    const room: ChatRoom = { id, name: title, initials: initials(title), kind: name ? 'group' : 'direct', subtitle: name ? 'Preview group' : 'Preview contact', unread: 0, lastAt: Date.now(), encrypted: false,
+    const room: ChatRoom = { id, name: title, initials: initials(title), kind: name ? 'group' : 'direct', communityId, subtitle: name ? 'Preview group' : 'Preview contact', unread: 0, lastAt: Date.now(), encrypted: false,
       preview: 'A new conversation starts here.', members: [{ id: 'you', name: 'You' }, ...users.map(user => ({ id: user, name: user }))] };
     setPreview(p => ({ rooms: [room, ...p.rooms], messages: { ...p.messages, [id]: [] } })); setActiveId(id);
   }
+  async function createCommunity(users: string[], name: string) {
+    if (mode === 'matrix') { const result = await matrix.createCommunity(users, name); setActiveId(result.generalId); return; }
+    const spaceId=crypto.randomUUID(), generalId=crypto.randomUUID(), announcementsId=crypto.randomUUID();
+    const members=[{id:'you',name:'You'},...users.map(user=>({id:user,name:user}))];
+    const community:ChatRoom={id:spaceId,name,initials:initials(name),kind:'community',subtitle:'Preview community',unread:0,lastAt:Date.now(),members,encrypted:false,preview:'Your people, together.'};
+    const group=(id:string,label:string):ChatRoom=>({...community,id,name:`${name} · ${label}`,kind:'group',communityId:spaceId,subtitle:label==='Announcements'?'Preview announcements':'Preview group',preview:label==='Announcements'?'Updates for the whole community.':'A place for everyone to talk.'});
+    setPreview(p=>({rooms:[community,group(generalId,'General'),group(announcementsId,'Announcements'),...p.rooms],messages:{...p.messages,[spaceId]:[],[generalId]:[],[announcementsId]:[]}}));setActiveId(generalId);notify('Community preview created with General and Announcements groups. Nothing was sent.');
+  }
+  async function invite(roomId:string,user:string){if(mode==='matrix')return matrix.invite(roomId,user);if(!user.trim())throw new Error('Enter a member name.');setPreview(p=>({...p,rooms:p.rooms.map(r=>r.id===roomId?{...r,members:[...r.members.filter(m=>m.id!==user),{id:user,name:user}]}:r)}));notify('Member added to this local preview.');}
+  async function rename(roomId:string,name:string){if(mode==='matrix')return matrix.rename(roomId,name);if(!name.trim()||name.length>80)throw new Error('Use a name of 1–80 characters.');setPreview(p=>({...p,rooms:p.rooms.map(r=>r.id===roomId?{...r,name:name.trim(),initials:initials(name)}:r)}));}
+  async function removeMember(roomId:string,user:string){if(mode==='matrix')return matrix.removeMember(roomId,user);setPreview(p=>({...p,rooms:p.rooms.map(r=>r.id===roomId?{...r,members:r.members.filter(m=>m.id!==user)}:r)}));}
+  async function leaveRoom(roomId:string){if(mode==='matrix'){await matrix.leave(roomId);return;}setPreview(p=>({...p,rooms:p.rooms.filter(r=>r.id!==roomId)}));setActiveId('');notify('Left the preview group on this device.');}
   function updateRoom(id: string, key: 'pinned' | 'muted' | 'archived') { const current = rooms.find(room => room.id === id); setPrefs(p => ({ ...p, [id]: { ...p[id], [key]: !current?.[key] } })); notify(`${key === 'pinned' ? 'Pin' : key === 'muted' ? 'Mute' : 'Archive'} preference saved on this device.`); }
   async function remove(message: ChatMessage) { if (!message.own) throw new Error('You can remove your own messages.'); if (mode === 'matrix') return matrix.redact(message.roomId, message.id); setPreview(p => ({ ...p, messages: { ...p.messages, [message.roomId]: (p.messages[message.roomId] || []).filter(m => m.id !== message.id) } })); }
-  return <Context.Provider value={{ mode, rooms, messages: snapshot.messages, activeId, setActive, session, state, error, server: session?.homeserver || configuredServer(), toast, notify, connect, disconnect, send, upload, createRoom, updateRoom, remove, resetPreview: () => { setPreview(createPreview()); setActiveId('nora'); notify('Local preview reset.'); }, receipts, setReceipts }}>{children}</Context.Provider>;
+  return <Context.Provider value={{ mode, rooms, messages: snapshot.messages, activeId, setActive, session, state, error, server: session?.homeserver || configuredServer(), toast, notify, connect, disconnect, send, upload, createRoom, createCommunity, invite, rename, removeMember, leaveRoom, updateRoom, remove, resetPreview: () => { setPreview(createPreview()); setActiveId('nora'); notify('Local preview reset.'); }, receipts, setReceipts }}>{children}</Context.Provider>;
 }
 export function useMessenger() { const value = useContext(Context); if (!value) throw new Error('Missing messenger provider.'); return value; }

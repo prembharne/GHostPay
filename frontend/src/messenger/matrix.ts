@@ -94,11 +94,13 @@ class MatrixService {
       const events = room.getLiveTimeline().getEvents().filter(event => event.getType() === EventType.RoomMessage || event.isDecryptionFailure());
       messages[room.roomId] = events.filter(event => !event.isRedacted() && !event.getContent()['m.relates_to']?.rel_type).map(event => this.message(event));
       const last = messages[room.roomId].at(-1);
-      const direct = members.length <= 2 && room.getMyMembership() !== 'invite';
+      const space = room.getType() === 'm.space';
+      const direct = !space && !room.currentState.getStateEvents(EventType.RoomName, '') && members.length <= 2 && room.getMyMembership() !== 'invite';
+      const parent = room.currentState.getStateEvents(EventType.SpaceParent).find(event => event.getContent().canonical)?.getStateKey();
       const name = room.name || other[0]?.name || 'New conversation';
       return { id: room.roomId, name, subtitle: room.getMyMembership() === 'invite' ? 'Invitation · review before joining' : direct ? other[0]?.id || 'Private conversation' : `${members.length} members`,
-        initials: initials(name), kind: direct ? 'direct' : 'group', unread: room.getUnreadNotificationCount(NotificationCountType.Total), lastAt: last?.timestamp || 0,
-        members, encrypted: client.isRoomEncrypted(room.roomId), preview: last?.payment ? 'Payment link' : last?.body || 'Start a conversation', invited: room.getMyMembership() === 'invite',
+        initials: initials(name), kind: space ? 'community' : direct ? 'direct' : 'group', communityId: parent, unread: room.getUnreadNotificationCount(NotificationCountType.Total), lastAt: last?.timestamp || 0,
+        members, canManage: room.currentState.maySendStateEvent(EventType.RoomName, client.getUserId()!), canSend: room.currentState.maySendEvent(EventType.RoomMessage, client.getUserId()!), encrypted: client.isRoomEncrypted(room.roomId), preview: last?.payment ? 'Payment link' : last?.body || 'Start a conversation', invited: room.getMyMembership() === 'invite',
       } satisfies ChatRoom;
     }).sort((a, b) => b.lastAt - a.lastAt);
     return { rooms, messages };
@@ -123,12 +125,35 @@ class MatrixService {
     const content = { msgtype: MsgType.Text as const, body, ...(payment ? { [PAYMENT_CONTENT_KEY]: payment } : {}), ...(reply ? { 'm.relates_to': { 'm.in_reply_to': { event_id: reply.id } } } : {}) };
     await client.sendMessage(roomId, content); this.notify();
   }
-  async createRoom(users: string[], name?: string) {
-    const client = this.require(); if (!users.length || users.some(user => !/^@[^\s:]+:[^\s]+$/.test(user))) throw new Error('Enter complete Matrix IDs, such as @name:server.example.');
-    const response = await client.createRoom({ preset: Preset.PrivateChat, invite: [...new Set(users)], is_direct: !name && users.length === 1,
+  async createRoom(users: string[], name?: string, communityId?: string, announcements = false) {
+    const client = this.require(); if ((!name && users.length !== 1) || users.some(user => !/^@[^\s:]+:[^\s]+$/.test(user))) throw new Error('Enter complete Matrix IDs, such as @name:server.example.');
+    const creator = client.getUserId()!;
+    const response = await client.createRoom({ preset: Preset.PrivateChat, invite: [...new Set(users)], is_direct: !name,
       ...(name ? { name } : {}), initial_state: [{ type: EventType.RoomEncryption, state_key: '', content: { algorithm: 'm.megolm.v1.aes-sha2' } }],
-    }); this.notify(); return response.room_id;
+      ...(announcements ? { power_level_content_override: { users: { [creator]: 100 }, users_default: 0, events_default: 50, state_default: 50, invite: 50, kick: 50, ban: 50, redact: 50 } } : {}),
+    });
+    if (communityId) {
+      const server = creator.split(':').slice(1).join(':');
+      await client.sendStateEvent(communityId, EventType.SpaceChild, { via: [server], suggested: true }, response.room_id);
+      await client.sendStateEvent(response.room_id, EventType.SpaceParent, { via: [server], canonical: true }, communityId);
+    }
+    this.notify(); return response.room_id;
   }
+  async createCommunity(users: string[], name: string) {
+    const client = this.require(); if (!name.trim() || name.length > 80 || users.some(user => !/^@[^\s:]+:[^\s]+$/.test(user))) throw new Error('Use a community name and complete Matrix member IDs.');
+    const space = await client.createRoom({ name: name.trim(), creation_content: { type: 'm.space' }, preset: Preset.PrivateChat, invite: [...new Set(users)] });
+    try {
+      const generalId = await this.createRoom(users, `${name.trim()} · General`, space.room_id);
+      await this.createRoom(users, `${name.trim()} · Announcements`, space.room_id, true);
+      this.notify(); return { spaceId: space.room_id, generalId };
+    } catch {
+      this.notify(); throw new Error('The community was created, but child-group setup is incomplete. Check your communities before creating another.');
+    }
+  }
+
+  async invite(roomId: string, userId: string) { if (!/^@[^\s:]+:[^\s]+$/.test(userId)) throw new Error('Enter a complete Matrix ID.'); await this.require().invite(roomId, userId); this.notify(); }
+  async rename(roomId: string, name: string) { if (!name.trim() || name.length > 80) throw new Error('Use a name of 1–80 characters.'); await this.require().setRoomName(roomId, name.trim()); this.notify(); }
+  async removeMember(roomId: string, userId: string) { await this.require().kick(roomId, userId, 'Removed by a group administrator'); this.notify(); }
   async join(roomId: string) { await this.require().joinRoom(roomId); this.notify(); }
   async leave(roomId: string) { await this.require().leave(roomId); this.notify(); }
   async react(roomId: string, eventId: string, key: string) {

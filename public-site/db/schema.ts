@@ -9,3 +9,7 @@ export const requests = sqliteTable('claim_requests', {
 export const rates = sqliteTable('rate_windows', {
   key: text('key').primaryKey(), hits: integer('hits').notNull(), expiresAt: integer('expires_at').notNull(),
 }, table => [index('rate_expiry').on(table.expiresAt)]);
+
+export const profiles = sqliteTable('wallet_profiles', {
+  wallet: text('wallet').primaryKey(), username: text('username').notNull(), createdAt: integer('created_at').notNull(),
+}, table => [uniqueIndex('wallet_username').on(table.username)]);

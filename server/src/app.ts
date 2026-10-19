@@ -20,6 +20,11 @@ export function createApp(client: PublicClient, deployment: { address: Address; 
   const sigValid = (s: unknown): s is Hex => typeof s === 'string' && /^0x[\da-fA-F]+$/.test(s) && s.length % 2 === 0;
   async function payment(id: string) { return client.readContract({ address: deployment.address, abi: escrowAbi, functionName: 'getPayment', args: [BigInt(id)] }); }
   const fail = (message: string, status = 400): never => { throw Object.assign(new Error(message), { status }); };
+  app.use('/api/profiles', async (req, res) => {
+    if (!['GET', 'POST'].includes(req.method) || !/^\/api\/profiles(?:\/(?:resolve|address\/0x[\da-fA-F]{40}|name\/[a-zA-Z0-9_]{3,24}|search\/[a-zA-Z0-9_]{2,24}))?$/.test(req.originalUrl)) { res.status(404).json({ error: 'Profile route not found.' }); return; }
+    try { const upstream = 'https://ghostpay-prem-sepolia.brawnyfrost16.chatgpt.site'; const response = await fetch(upstream + req.originalUrl, { method: req.method, headers: { 'Content-Type': 'application/json', Origin: upstream }, body: req.method === 'POST' ? JSON.stringify(req.body) : undefined, redirect: 'error', signal: AbortSignal.timeout(15000) }); res.status(response.status).json(await response.json()); }
+    catch { res.status(503).json({ error: 'Username directory is unavailable. Retry later.' }); }
+  });
   app.get('/api/prices', async (_req, res) => { try { res.setHeader('Cache-Control', 'public, max-age=15'); res.json(await marketPrices()); } catch { res.status(503).json({ error: 'Live prices are temporarily unavailable.' }); } });
   app.get('/api/deployment', (_req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json(setup?.registry.current || { ...deployment, configured: true }); });
   app.get('/api/deployment/artifact', (_req, res) => { if (!setup) return fail('Wallet deployment is not enabled.', 404); res.json({ bytecode: setup.bytecode, chainId: deployment.chainId }); });

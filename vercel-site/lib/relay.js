@@ -1,6 +1,6 @@
 const upstream = 'https://ghostpay-prem-sepolia.brawnyfrost16.chatgpt.site';
 export const MAX_BODY = 12288;
-const route = /^(?:health|deployment(?:\/artifact)?|requests(?:\/payment\/[1-9]\d{0,76}|\/[\da-f-]{36}(?:\/(?:authorize|reject))?)?)$/i;
+const route = /^(?:profiles(?:\/(?:resolve|address\/0x[\da-f]{40}|name\/[a-z0-9_]{3,24}|search\/[a-z0-9_]{2,24}))?|health|deployment(?:\/artifact)?|requests(?:\/payment\/[1-9]\d{0,76}|\/[\da-f-]{36}(?:\/(?:authorize|reject))?)?)$/i;
 const result = (error, status) => ({ status, type: 'application/json', body: JSON.stringify({ error }) });
 
 export async function relay({ method, path, origin, host, contentType, body }, fetcher = fetch) {

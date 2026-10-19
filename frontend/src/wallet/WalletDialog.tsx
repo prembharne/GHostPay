@@ -6,6 +6,7 @@ import { answerApproval, createVault, exportVault, importVault, lockVault, setVa
 import { explorer } from '../config/web3';
 import '../messenger/messenger.css';
 import './wallet.css';
+import { openWalletAccount } from '../config/reown';
 
 export default function WalletDialog({ onClose }: { onClose: () => void }) {
   const vault = useSyncExternalStore(subscribeVault, vaultSnapshot); const { address, connector } = useAccount(); const { connectAsync, connectors } = useConnect(); const { disconnect } = useDisconnect();
@@ -31,6 +32,7 @@ export default function WalletDialog({ onClose }: { onClose: () => void }) {
       <button className="ms-button ms-secondary ms-full" onClick={() => { lockVault(); disconnect(); }}><LockKeyhole size={16}/>Lock wallet</button>
       <p className="ms-fine">Automatically locks five minutes after the last wallet operation. Switching messaging profiles also locks it.</p>
     </> : <>
+      <button className="ms-button ms-primary ms-full" onClick={() => { void openWalletAccount('Connect'); }}>Continue with Google or WalletConnect<ArrowRight size={16}/></button>
       <p className="ms-modal-copy">{vault.exists ? 'Unlock your encrypted wallet on this device. Your password stays here.' : 'Create a wallet on your device. Its private key is randomly generated and encrypted with your password before it is saved.'}</p>
       {!vault.exists && <div className="ms-segments"><button className={tab === 'wallet' ? 'selected' : ''} onClick={() => setTab('wallet')}><PlusWallet/>Create wallet</button><button className={tab === 'import' ? 'selected' : ''} onClick={() => setTab('import')}><Upload size={15}/>Import backup</button></div>}
       <form className="ms-form" onSubmit={connectLocal}>

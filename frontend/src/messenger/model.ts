@@ -1,7 +1,9 @@
 import { isAddress } from 'viem';
+import { directReference, type DirectReference } from '../../../shared/direct';
+import { campaignReference, type CampaignReference } from '../../../shared/community';
 import { nativeReference, type NativeReference } from '../../../shared/nativeProtocol';
 
-export type PaymentReference = { version: 1; chainId: number; contract: string; paymentId: string } | NativeReference;
+export type PaymentReference = { version: 1; chainId: number; contract: string; paymentId: string } | NativeReference | DirectReference | CampaignReference;
 export interface ChatMessage {
   id: string; roomId: string; sender: string; senderName: string; body: string; timestamp: number;
   own: boolean; state: 'sent' | 'sending' | 'failed' | 'local'; payment?: PaymentReference;
@@ -9,7 +11,7 @@ export interface ChatMessage {
   attachment?: { name: string; type: string; size: number; url?: string; encrypted?: Record<string, unknown> };
 }
 export interface ChatRoom {
-  id: string; name: string; subtitle: string; initials: string; kind: 'direct' | 'group';
+  id: string; name: string; subtitle: string; initials: string; kind: 'direct' | 'group' | 'community'; communityId?: string; canSend?: boolean; canManage?: boolean;
   unread: number; lastAt: number; members: { id: string; name: string }[]; encrypted: boolean;
   preview: string; archived?: boolean; pinned?: boolean; muted?: boolean; invited?: boolean;
 }
@@ -19,6 +21,8 @@ export const PAYMENT_CONTENT_KEY = 'org.ghostpay.payment';
 export function parsePayment(value: unknown): PaymentReference | undefined {
   if (!value || typeof value !== 'object') return;
   const p = value as Record<string, unknown>;
+  if (p.version === 3) return directReference(value);
+  if (p.version === 4) return campaignReference(value);
   if (p.version === 2) return nativeReference(value);
   if (p.version !== 1 || p.chainId !== 11155111 || typeof p.contract !== 'string' || !isAddress(p.contract) || typeof p.paymentId !== 'string' || !/^[1-9]\d{0,76}$/.test(p.paymentId) || BigInt(p.paymentId) >= 2n ** 256n) return;
   return { version: 1, chainId: p.chainId, contract: p.contract, paymentId: p.paymentId };

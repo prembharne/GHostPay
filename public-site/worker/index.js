@@ -6,6 +6,7 @@ import { SEPOLIA_RPC_URL } from '../shared/network.ts';
 import deployment from '../deployment.json';
 import assets from 'virtual:assets';
 import { RequestStore } from './store.js';
+import { identity } from './identity.js';
 
 const client = createPublicClient({ chain: sepolia, transport: http(SEPOLIA_RPC_URL, { timeout: 15000, retryCount: 1 }) });
 const idValid = v => typeof v === 'string' && /^[1-9]\d{0,76}$/.test(v) && BigInt(v) < 2n ** 256n;
@@ -42,6 +43,7 @@ export async function api(request, env, ctx) {
     const origin = request.headers.get('origin'); if (origin && origin !== new URL(request.url).origin) fail('Cross-origin writes are not allowed.', 403);
   }
   await rateLimit(request, env, ctx);
+  if (path === '/api/profiles' || path.startsWith('/api/profiles/')) return json(await identity(request, env.DB, request.method === 'POST' ? await body(request) : undefined));
   if (request.method === 'GET' && path === '/api/deployment') return json(deployment);
   if (path.startsWith('/api/deployment')) return json({ error: 'This public app already has a verified Sepolia deployment. Changing it is disabled.' }, 409);
   if (request.method === 'GET' && path === '/api/health') return json({ ok: true, ...deployment, blockNumber: String(await client.getBlockNumber()), storage: 'persistent' });

@@ -12,14 +12,17 @@ import { chainNow } from '../../../shared/clock';
 import { Modal } from './Modal';
 import { useMessenger } from './MessengerContext';
 import type { PaymentReference } from './model';
-import { NativeComposer } from '../payments/NativeComposer';
+import { PaymentStudio } from '../payments/PaymentStudio';
+import { DirectCard, CampaignCard } from '../payments/PaymentCards';
 import { NativeCard } from '../payments/NativeCard';
 
 export function PaymentCard(props: { payment?: PaymentReference; preview?: boolean; onOpen: (id: string) => void; onCreate: () => void }) {
-  return props.payment?.version === 2 ? <NativeCard reference={props.payment}/> : <LegacyPaymentCard {...props}/>;
+  if (props.payment?.version === 3) return <DirectCard reference={props.payment}/>;
+  if (props.payment?.version === 4) return <CampaignCard reference={props.payment}/>;
+  return props.payment?.version === 2 ? <NativeCard reference={props.payment}/> : <LegacyPaymentCard {...props} payment={props.payment?.version === 1 ? props.payment : undefined}/>;
 }
 
-function LegacyPaymentCard({ payment, preview, onOpen, onCreate }: { payment?: PaymentReference; preview?: boolean; onOpen: (id: string) => void; onCreate: () => void }) {
+function LegacyPaymentCard({ payment, preview, onOpen, onCreate }: { payment?: Extract<PaymentReference, {version: 1}>; preview?: boolean; onOpen: (id: string) => void; onCreate: () => void }) {
   const valid = !!payment && payment.contract.toLowerCase() === contractAddress.toLowerCase() && payment.chainId === chain.id;
   const result = usePayment(valid ? BigInt(payment!.paymentId) : 0n); const p = result.data;
   const label = preview ? 'Design preview · no deposit' : !valid ? 'Different escrow · verify first' : result.isError ? 'Could not read payment' : !p ? 'Reading Sepolia…' : p.status === 2 ? 'Claimed' : p.status === 3 ? 'Refunded' : p.status === 0 ? 'Payment not found' : p.expiry <= BigInt(Math.floor(Date.now() / 1000)) ? 'Expired' : 'Held in escrow';
@@ -35,7 +38,7 @@ function LegacyPaymentCard({ payment, preview, onOpen, onCreate }: { payment?: P
 
 export function PaymentComposer({ onClose }: { onClose: () => void }) {
   const chat = useMessenger(); const room = chat.rooms.find(item => item.id === chat.activeId);
-  return <NativeComposer onClose={onClose} recipient={room?.name} onShare={async (body, reference) => { await chat.send(body, reference); chat.notify(chat.mode === 'preview' ? 'Payment card saved on this device. Share its public link separately.' : 'Payment shared in this encrypted conversation.'); }}/>;
+  return <PaymentStudio onClose={onClose} recipient={room?.name} group={room?.kind !== 'direct'} onShare={async (body, reference) => { await chat.send(body, reference); chat.notify(chat.mode === 'preview' ? 'Payment card saved on this device. Share its public link separately.' : 'Payment shared in this encrypted conversation.'); }}/>;
 }
 
 export function PaymentDetails({ id, onClose }: { id: string; onClose: () => void }) {

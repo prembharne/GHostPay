@@ -5,10 +5,12 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter } from 'react-router-dom';
 import { config, configureDeployment, setDeploymentIssue } from './config/web3';
 import App from './App';
+import { initReown } from './config/reown';
 import './style.css';
 import './workspace.css';
 const queryClient = new QueryClient({ defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: true } } });
 async function bootstrap() {
+  try { initReown(); } catch { console.warn('Wallet provider initialization failed. Retry from your profile.'); }
   try {
     const response = await fetch('/api/deployment', { signal: AbortSignal.timeout(10000), cache: 'no-store' });
     if (!response.ok) throw new Error('Start or restart the Sepolia relay with npm start.');

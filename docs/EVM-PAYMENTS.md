@@ -33,3 +33,18 @@ An optional CoinGecko demo key is read only from the server environment. No key 
 - `npm run sync:vercel`: refresh the production frontend snapshot and market service before Vercel CLI deployment.
 
 The app verifies RPC identity and exact escrow bytecode before transactions, then verifies receipts/events. Known submitted hashes survive retries in the open UI, but are not durable across refreshes. Store transaction hashes and payment URLs separately. Clearing browser storage removes deployment preferences and local history, not on-chain escrows. Public funded two-wallet flows on additional networks remain unverified; automated tests use isolated accounts and mock network failures. This is unaudited hackathon software.
+
+
+## Reown, direct transfers and community pools
+
+The profile wallet uses Reown AppKit (Google/email/WalletConnect). New payment paths require its connected EVM wallet; the old encrypted device wallet remains limited to original Sepolia payments. `Pay a person` resolves a GhostPay @username through the persistent directory, shows the full address/network/amount, requires a separate confirmation checkbox and resolves the name again before sending. This is an irreversible direct native transfer, not escrow.
+
+`Community fund` deploys/imports `GhostPayCommunity.sol` per testnet. Paste `@username,amount` lines or full EVM addresses; resolve/review every allocation before funding. One campaign supports 1–100 unique wallets, positive allocations summing exactly to the deposit, and a 1-minute–30-day claim window. Claims pay only the calling eligible wallet once. After expiry the organizer may refund only what remains. The title, wallets and allocation amounts are public. No sender approval is needed after funding because eligibility is fixed in the contract. Matrix membership cannot alter it.
+
+The community artifact is `/contracts/community.json`; campaign links include chain, contract, campaign ID and `?deployment=<creation transaction hash>`. No community contract is preconfigured/deployed. The wallet owner must approve deployment and funding with test gas.
+
+## Creation provenance
+
+New v2 escrow funding and all community flows require the successful creation transaction with byte-for-byte trusted init code, matching receipt contract address, canonical block, at least two confirmations, exact current runtime and correct chain/domain. Runtime alone cannot prove safe storage initialization. Import controls require both address and creation hash; links carry the hash so another browser can verify independently. Factory/proxy deployments are unsupported. Older v2 links without creation provenance remain readable for compatibility, but new deposits require the proof. The configured original v1 Sepolia contract and its links remain unchanged.
+
+Pending hashes are held only while the relevant component remains open. Save the transaction hash and funded link; check the chain before retrying after a reload. Direct/campaign history is local browser history, not a durable backend indexer. This release does not sponsor gas, add mainnet, bridge assets, or deploy public community contracts automatically.

@@ -8,18 +8,17 @@ The explicitly labeled local preview supports sending text, creating preview con
 
 The Matrix adapter is separate from preview state. It uses matrix-js-sdk 44, persistent Rust crypto, a browser Web Lock per device, encrypted private rooms, encrypted attachment uploads, authenticated bounded media downloads, receipt/typing events and invitation acceptance. The client refuses sends to unencrypted rooms. Server metadata and blockchain records remain visible to their respective operators/public observers.
 
-## Account and wallet flow
+## Accounts, wallets and communities
 
-1. Connect a Matrix homeserver and use its advertised Google OIDC or password login. Google OIDC is verified by Synapse; no Google client secret belongs in a browser bundle.
-2. Opt into a local wallet or connect MetaMask. Creating the local wallet requires a separate user-chosen password. Automatic Google-only wallet recovery is not implemented.
-3. A random Ethereum key is generated on-device and saved only as a password-encrypted Ethereum V3 keystore. The decrypted key remains in memory while unlocked. It is never sent to the relay or homeserver.
-4. Download the encrypted backup. Store its password separately. Device/profile changes lock the wallet; five minutes without a wallet operation also locks it. Losing both browser data and the backup loses wallet access.
-5. Create a test-ETH escrow link from the chat composer. The card contains only version, chain, contract and payment ID. Amount/status are read from the configured contract, not trusted message text.
-6. The recipient requests, the sender independently verifies the exact wallet, and the existing contract requires sender authorization before a claim. A Matrix display name alone is not a verified wallet identity.
+The profile icon opens the wallet panel. Reown AppKit provides Google/email/WalletConnect onboarding and account management. A connected EOA can register one persistent public GhostPay @username using a short-lived personal-sign statement. Names are stored in the shared Worker/D1 directory, not ENS. Private keys are never sent to GhostPay servers. Reown account recovery follows the provider’s supported account/recovery flow; do not confuse it with the legacy device wallet.
 
-The device wallet exposes only GhostPay signing operations and the configured Sepolia escrow methods. Every signature and transaction requires an explicit confirmation. It does not sponsor gas, sign arbitrary dapp messages, deploy contracts or support mainnet. Use MetaMask for the existing deployment screen.
+Matrix authentication remains separate. A Reown Google wallet session does not authenticate a Matrix account or recover encrypted message keys. Configure Synapse Google OIDC and the public homeserver URL for real chat.
 
-An XSS or compromised frontend can still compromise a key while unlocked. This wallet is experimental, unaudited and intended for test ETH only. It is not a passkey/MPC/smart-account recovery implementation.
+Communities use Matrix Spaces with separate encrypted General and Announcements rooms. Announcements default to administrator-only sending. Users can create child groups, rename groups, invite/remove members and leave, subject to server permissions. Community and child-room memberships are independent. Space names, membership and other state metadata are visible to the homeserver; encrypted messages have separate room keys. The same screens work as explicitly device-local preview until Matrix is connected.
+
+The older optional device wallet still generates a random key locally and stores a password-encrypted Ethereum V3 keystore. Download its backup and keep its password separately. It auto-locks and retains its original Sepolia contract whitelist. It cannot register usernames or use the new multi-network payment paths. Google does not recover that legacy key.
+
+Payment cards cover direct transfer receipts, funded community allocation pools and existing escrow links. Amounts/status come from the selected chain, not message text. Read [identity and communities](IDENTITY-COMMUNITIES.md) for setup, trust boundaries and activation checks.
 
 ## Hosting and activation
 
@@ -38,10 +37,10 @@ A failed message send after a successful deposit retains the payment ID in the o
 ## Remaining product work
 
 - Full cross-signing/device verification, encrypted key backup and recovery UX.
-- Secure wallet/account linking with signed challenges and conflict/revocation handling.
+- Username migration/revocation and broader smart-account signature support; the current immutable directory supports EOA proofs.
 - Calls with MatrixRTC infrastructure, background push and operational abuse controls.
 - Native Android/iOS interfaces and secure OS-backed wallet storage.
-- Status updates, advanced group administration, message editing and other WhatsApp parity.
+- Status updates, advanced group roles, message editing and other WhatsApp parity.
 - Independent security review and live multi-device/payment lifecycle testing before production.
 
 ## Verification commands
