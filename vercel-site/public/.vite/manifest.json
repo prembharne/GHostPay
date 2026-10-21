@@ -1,6 +1,6 @@
 {
   "../node_modules/@base-org/account/dist/index.js": {
-    "file": "assets/index-BWB7PVq0.js",
+    "file": "assets/index-CWaBKueL.js",
     "name": "index",
     "src": "../node_modules/@base-org/account/dist/index.js",
     "isDynamicEntry": true,
@@ -8,15 +8,15 @@
       "_vanilla-BSN8VQPM.js",
       "_hooks.module-C4R15-Vr.js",
       "index.html",
-      "_createPublicClient-BHhp8tZG.js",
-      "_p256-CT1jKfBf.js",
-      "_index-Cp12qKgK.js",
-      "_bsc-BYvi-KVX.js",
-      "_parseSignature-D7Z72faZ.js"
+      "_createPublicClient-DCYRDjCH.js",
+      "_p256-BMKFalJe.js",
+      "_index-DhS3ZBjA.js",
+      "_bsc-CwrZuU45.js",
+      "_parseSignature-Do7WoSDh.js"
     ]
   },
   "../node_modules/@coinbase/wallet-sdk/dist/index.js": {
-    "file": "assets/index-4W-32u8i.js",
+    "file": "assets/index-C-ueUeoV.js",
     "name": "index",
     "src": "../node_modules/@coinbase/wallet-sdk/dist/index.js",
     "isDynamicEntry": true,
@@ -24,9 +24,9 @@
       "_vanilla-BSN8VQPM.js",
       "_hooks.module-C4R15-Vr.js",
       "index.html",
-      "_createPublicClient-BHhp8tZG.js",
-      "_p256-CT1jKfBf.js",
-      "_parseSignature-D7Z72faZ.js"
+      "_createPublicClient-DCYRDjCH.js",
+      "_p256-BMKFalJe.js",
+      "_parseSignature-Do7WoSDh.js"
     ]
   },
   "../node_modules/@matrix-org/matrix-sdk-crypto-wasm/pkg/matrix_sdk_crypto_wasm_bg.wasm": {
@@ -34,7 +34,7 @@
     "src": "../node_modules/@matrix-org/matrix-sdk-crypto-wasm/pkg/matrix_sdk_crypto_wasm_bg.wasm"
   },
   "../node_modules/@metamask/sdk/dist/browser/es/metamask-sdk.js": {
-    "file": "assets/metamask-sdk-DZ9mcrhe.js",
+    "file": "assets/metamask-sdk-FBVYbOH4.js",
     "name": "metamask-sdk",
     "src": "../node_modules/@metamask/sdk/dist/browser/es/metamask-sdk.js",
     "isDynamicEntry": true,
@@ -511,31 +511,31 @@
     ]
   },
   "../node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/basic.js": {
-    "file": "assets/basic-8cLLdsrD.js",
+    "file": "assets/basic-RL_d-fox.js",
     "name": "basic",
     "src": "../node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/basic.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_core-COF2JKBj.js",
-      "_index-oAnFsRY5.js",
-      "_index.es-COuiDQie.js"
+      "_core-D2jNsvDw.js",
+      "_index-B_dzGZIC.js",
+      "_index.es-C_SFyfIp.js"
     ]
   },
   "../node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/w3m-modal.js": {
-    "file": "assets/w3m-modal-lLs7KChT.js",
+    "file": "assets/w3m-modal-D3q1A1bJ.js",
     "name": "w3m-modal",
     "src": "../node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/w3m-modal.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_core-COF2JKBj.js",
-      "_index-oAnFsRY5.js",
-      "_index.es-COuiDQie.js"
+      "_core-D2jNsvDw.js",
+      "_index-B_dzGZIC.js",
+      "_index.es-C_SFyfIp.js"
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/add.js": {
-    "file": "assets/add---1ubd_T.js",
+    "file": "assets/add-B9PMbVqi.js",
     "name": "add",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/add.js",
     "isDynamicEntry": true,
@@ -544,7 +544,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/all-wallets.js": {
-    "file": "assets/all-wallets-DaLMRQYF.js",
+    "file": "assets/all-wallets-CKzm3IAF.js",
     "name": "all-wallets",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/all-wallets.js",
     "isDynamicEntry": true,
@@ -553,7 +553,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/app-store.js": {
-    "file": "assets/app-store-DbCVdbaK.js",
+    "file": "assets/app-store-_yY04kez.js",
     "name": "app-store",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/app-store.js",
     "isDynamicEntry": true,
@@ -562,7 +562,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/apple.js": {
-    "file": "assets/apple-DHXgkFhb.js",
+    "file": "assets/apple-DavBhZ-6.js",
     "name": "apple",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/apple.js",
     "isDynamicEntry": true,
@@ -571,7 +571,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-bottom-circle.js": {
-    "file": "assets/arrow-bottom-circle-BzqBwXaS.js",
+    "file": "assets/arrow-bottom-circle-Dxh866RO.js",
     "name": "arrow-bottom-circle",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-bottom-circle.js",
     "isDynamicEntry": true,
@@ -580,7 +580,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-bottom.js": {
-    "file": "assets/arrow-bottom-C2Ad7D-a.js",
+    "file": "assets/arrow-bottom-CHLr_f6p.js",
     "name": "arrow-bottom",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-bottom.js",
     "isDynamicEntry": true,
@@ -589,7 +589,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-left.js": {
-    "file": "assets/arrow-left-7WR1niYE.js",
+    "file": "assets/arrow-left-c7HyHJHn.js",
     "name": "arrow-left",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-left.js",
     "isDynamicEntry": true,
@@ -598,7 +598,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-right.js": {
-    "file": "assets/arrow-right-BDv1CvVI.js",
+    "file": "assets/arrow-right-BB1DfLGO.js",
     "name": "arrow-right",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-right.js",
     "isDynamicEntry": true,
@@ -607,7 +607,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-top.js": {
-    "file": "assets/arrow-top-B6pSWwJG.js",
+    "file": "assets/arrow-top-d1pglHKH.js",
     "name": "arrow-top",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/arrow-top.js",
     "isDynamicEntry": true,
@@ -616,7 +616,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/bank.js": {
-    "file": "assets/bank-DtbZAFLf.js",
+    "file": "assets/bank-UYwIVSE4.js",
     "name": "bank",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/bank.js",
     "isDynamicEntry": true,
@@ -625,7 +625,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/browser.js": {
-    "file": "assets/browser-DRIzfhTm.js",
+    "file": "assets/browser-D9vAJS0n.js",
     "name": "browser",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/browser.js",
     "isDynamicEntry": true,
@@ -634,7 +634,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/card.js": {
-    "file": "assets/card-CoM_cIXM.js",
+    "file": "assets/card-BsiXquw_.js",
     "name": "card",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/card.js",
     "isDynamicEntry": true,
@@ -643,7 +643,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/checkmark-bold.js": {
-    "file": "assets/checkmark-bold-BZDYeNKS.js",
+    "file": "assets/checkmark-bold-DLwZ9Jv-.js",
     "name": "checkmark-bold",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/checkmark-bold.js",
     "isDynamicEntry": true,
@@ -652,7 +652,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/checkmark.js": {
-    "file": "assets/checkmark-BCgrZZsB.js",
+    "file": "assets/checkmark-B5GvKpzx.js",
     "name": "checkmark",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/checkmark.js",
     "isDynamicEntry": true,
@@ -661,7 +661,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-bottom.js": {
-    "file": "assets/chevron-bottom-Dz-mfrnj.js",
+    "file": "assets/chevron-bottom-ArP6GbM6.js",
     "name": "chevron-bottom",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-bottom.js",
     "isDynamicEntry": true,
@@ -670,7 +670,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-left.js": {
-    "file": "assets/chevron-left-2XsLdrpj.js",
+    "file": "assets/chevron-left-BbteUZ0l.js",
     "name": "chevron-left",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-left.js",
     "isDynamicEntry": true,
@@ -679,7 +679,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-right.js": {
-    "file": "assets/chevron-right-DJiyVq6L.js",
+    "file": "assets/chevron-right-CpePjo5V.js",
     "name": "chevron-right",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-right.js",
     "isDynamicEntry": true,
@@ -688,7 +688,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-top.js": {
-    "file": "assets/chevron-top-C-_At1wB.js",
+    "file": "assets/chevron-top-DRHrUlb7.js",
     "name": "chevron-top",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chevron-top.js",
     "isDynamicEntry": true,
@@ -697,7 +697,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chrome-store.js": {
-    "file": "assets/chrome-store-DLeZkARg.js",
+    "file": "assets/chrome-store-BZPiG4YE.js",
     "name": "chrome-store",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/chrome-store.js",
     "isDynamicEntry": true,
@@ -706,7 +706,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/clock.js": {
-    "file": "assets/clock-BxMwaqB1.js",
+    "file": "assets/clock-CH6FC7_Z.js",
     "name": "clock",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/clock.js",
     "isDynamicEntry": true,
@@ -715,7 +715,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/close.js": {
-    "file": "assets/close-BT3gYmMe.js",
+    "file": "assets/close-DE1pGav5.js",
     "name": "close",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/close.js",
     "isDynamicEntry": true,
@@ -724,7 +724,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/coinPlaceholder.js": {
-    "file": "assets/coinPlaceholder-DDXfFLKm.js",
+    "file": "assets/coinPlaceholder-DhbXy6_k.js",
     "name": "coinPlaceholder",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/coinPlaceholder.js",
     "isDynamicEntry": true,
@@ -733,7 +733,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/compass.js": {
-    "file": "assets/compass-D5pXN9UF.js",
+    "file": "assets/compass-CAjoD4ja.js",
     "name": "compass",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/compass.js",
     "isDynamicEntry": true,
@@ -742,7 +742,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/copy.js": {
-    "file": "assets/copy-CK2ZRaxH.js",
+    "file": "assets/copy-D58qvSRt.js",
     "name": "copy",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/copy.js",
     "isDynamicEntry": true,
@@ -751,7 +751,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/cursor-transparent.js": {
-    "file": "assets/cursor-transparent-C_ugq2Ed.js",
+    "file": "assets/cursor-transparent-fI4M6CQ4.js",
     "name": "cursor-transparent",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/cursor-transparent.js",
     "isDynamicEntry": true,
@@ -760,7 +760,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/cursor.js": {
-    "file": "assets/cursor-CmY5xT_1.js",
+    "file": "assets/cursor-DsZRKHji.js",
     "name": "cursor",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/cursor.js",
     "isDynamicEntry": true,
@@ -769,7 +769,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/desktop.js": {
-    "file": "assets/desktop-lUScar6t.js",
+    "file": "assets/desktop-B_GYKuGU.js",
     "name": "desktop",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/desktop.js",
     "isDynamicEntry": true,
@@ -778,7 +778,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/disconnect.js": {
-    "file": "assets/disconnect-CMpTsWIt.js",
+    "file": "assets/disconnect-CdU5wu74.js",
     "name": "disconnect",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/disconnect.js",
     "isDynamicEntry": true,
@@ -787,7 +787,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/discord.js": {
-    "file": "assets/discord-4_42vtoP.js",
+    "file": "assets/discord-S8iO6Vy1.js",
     "name": "discord",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/discord.js",
     "isDynamicEntry": true,
@@ -796,7 +796,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/etherscan.js": {
-    "file": "assets/etherscan-B0rOCMx1.js",
+    "file": "assets/etherscan-GZ47WVWM.js",
     "name": "etherscan",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/etherscan.js",
     "isDynamicEntry": true,
@@ -805,7 +805,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/exclamation-triangle.js": {
-    "file": "assets/exclamation-triangle-LzPjXk5I.js",
+    "file": "assets/exclamation-triangle-D_LgVdYA.js",
     "name": "exclamation-triangle",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/exclamation-triangle.js",
     "isDynamicEntry": true,
@@ -814,7 +814,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/extension.js": {
-    "file": "assets/extension-DQpEnS0q.js",
+    "file": "assets/extension-Dw0WRX6Y.js",
     "name": "extension",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/extension.js",
     "isDynamicEntry": true,
@@ -823,7 +823,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/external-link.js": {
-    "file": "assets/external-link-DGfiNIah.js",
+    "file": "assets/external-link-Crjs5cg7.js",
     "name": "external-link",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/external-link.js",
     "isDynamicEntry": true,
@@ -832,7 +832,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/facebook.js": {
-    "file": "assets/facebook-C3rkWBd7.js",
+    "file": "assets/facebook-D9Zf9dqJ.js",
     "name": "facebook",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/facebook.js",
     "isDynamicEntry": true,
@@ -841,7 +841,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/farcaster.js": {
-    "file": "assets/farcaster-DaCocB2q.js",
+    "file": "assets/farcaster-Dm882z91.js",
     "name": "farcaster",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/farcaster.js",
     "isDynamicEntry": true,
@@ -850,7 +850,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/filters.js": {
-    "file": "assets/filters-YXbCizCL.js",
+    "file": "assets/filters-BCvmK_LE.js",
     "name": "filters",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/filters.js",
     "isDynamicEntry": true,
@@ -859,7 +859,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/github.js": {
-    "file": "assets/github-CQ2jkrjP.js",
+    "file": "assets/github-BrOgTvAt.js",
     "name": "github",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/github.js",
     "isDynamicEntry": true,
@@ -868,7 +868,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/google.js": {
-    "file": "assets/google-ClwNv9fb.js",
+    "file": "assets/google-CyVktoXu.js",
     "name": "google",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/google.js",
     "isDynamicEntry": true,
@@ -877,7 +877,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/help-circle.js": {
-    "file": "assets/help-circle-CYdvygAP.js",
+    "file": "assets/help-circle-CmoTfJA0.js",
     "name": "help-circle",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/help-circle.js",
     "isDynamicEntry": true,
@@ -886,7 +886,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/id.js": {
-    "file": "assets/id-Ctc1rhqa.js",
+    "file": "assets/id-BTUpQd66.js",
     "name": "id",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/id.js",
     "isDynamicEntry": true,
@@ -895,7 +895,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/image.js": {
-    "file": "assets/image-C4hH3ruP.js",
+    "file": "assets/image-BdkdEcR3.js",
     "name": "image",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/image.js",
     "isDynamicEntry": true,
@@ -904,7 +904,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/info-circle.js": {
-    "file": "assets/info-circle-DYDCGY18.js",
+    "file": "assets/info-circle-DBhFNlTv.js",
     "name": "info-circle",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/info-circle.js",
     "isDynamicEntry": true,
@@ -913,7 +913,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/info.js": {
-    "file": "assets/info-adn0XEk_.js",
+    "file": "assets/info-BSDB-n3M.js",
     "name": "info",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/info.js",
     "isDynamicEntry": true,
@@ -922,7 +922,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/lightbulb.js": {
-    "file": "assets/lightbulb-CLEwjIqT.js",
+    "file": "assets/lightbulb-BkLdErHB.js",
     "name": "lightbulb",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/lightbulb.js",
     "isDynamicEntry": true,
@@ -931,7 +931,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/mail.js": {
-    "file": "assets/mail-BuPxehwo.js",
+    "file": "assets/mail-B5vzX3et.js",
     "name": "mail",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/mail.js",
     "isDynamicEntry": true,
@@ -940,7 +940,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/mobile.js": {
-    "file": "assets/mobile-B4XsI8P2.js",
+    "file": "assets/mobile-DzSERj69.js",
     "name": "mobile",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/mobile.js",
     "isDynamicEntry": true,
@@ -949,7 +949,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/more.js": {
-    "file": "assets/more-DC9oFc70.js",
+    "file": "assets/more-BYdIWuqr.js",
     "name": "more",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/more.js",
     "isDynamicEntry": true,
@@ -958,7 +958,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/network-placeholder.js": {
-    "file": "assets/network-placeholder-Beqcpxuu.js",
+    "file": "assets/network-placeholder-B-HWuKJk.js",
     "name": "network-placeholder",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/network-placeholder.js",
     "isDynamicEntry": true,
@@ -967,7 +967,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/nftPlaceholder.js": {
-    "file": "assets/nftPlaceholder-Dhbwcb9B.js",
+    "file": "assets/nftPlaceholder-CUYc0Cr2.js",
     "name": "nftPlaceholder",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/nftPlaceholder.js",
     "isDynamicEntry": true,
@@ -976,7 +976,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/off.js": {
-    "file": "assets/off-OarhB4GC.js",
+    "file": "assets/off-D4hb_wI6.js",
     "name": "off",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/off.js",
     "isDynamicEntry": true,
@@ -985,7 +985,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/play-store.js": {
-    "file": "assets/play-store-CGoej_MG.js",
+    "file": "assets/play-store-Bgi8E5sn.js",
     "name": "play-store",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/play-store.js",
     "isDynamicEntry": true,
@@ -994,7 +994,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/plus.js": {
-    "file": "assets/plus-BDaCp4rR.js",
+    "file": "assets/plus-6PsEiaw1.js",
     "name": "plus",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/plus.js",
     "isDynamicEntry": true,
@@ -1003,7 +1003,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/qr-code.js": {
-    "file": "assets/qr-code-BgziUn7X.js",
+    "file": "assets/qr-code-DSWrMisZ.js",
     "name": "qr-code",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/qr-code.js",
     "isDynamicEntry": true,
@@ -1012,7 +1012,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/recycle-horizontal.js": {
-    "file": "assets/recycle-horizontal-mcEV77jx.js",
+    "file": "assets/recycle-horizontal-CZGe7xkC.js",
     "name": "recycle-horizontal",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/recycle-horizontal.js",
     "isDynamicEntry": true,
@@ -1021,7 +1021,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/refresh.js": {
-    "file": "assets/refresh-CthAPwJR.js",
+    "file": "assets/refresh-CCjt1Lv_.js",
     "name": "refresh",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/refresh.js",
     "isDynamicEntry": true,
@@ -1030,7 +1030,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/reown-logo.js": {
-    "file": "assets/reown-logo-BgUgaU-g.js",
+    "file": "assets/reown-logo-DEjKxH2K.js",
     "name": "reown-logo",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/reown-logo.js",
     "isDynamicEntry": true,
@@ -1039,7 +1039,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/search.js": {
-    "file": "assets/search-IN3-x_t_.js",
+    "file": "assets/search-BhPlSQTU.js",
     "name": "search",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/search.js",
     "isDynamicEntry": true,
@@ -1048,7 +1048,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/send.js": {
-    "file": "assets/send-zX8oiVkd.js",
+    "file": "assets/send-xT84piU6.js",
     "name": "send",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/send.js",
     "isDynamicEntry": true,
@@ -1057,7 +1057,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontal.js": {
-    "file": "assets/swapHorizontal-D2tQEoHs.js",
+    "file": "assets/swapHorizontal-B1N36TPB.js",
     "name": "swapHorizontal",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontal.js",
     "isDynamicEntry": true,
@@ -1066,7 +1066,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontalBold.js": {
-    "file": "assets/swapHorizontalBold-cebQSu98.js",
+    "file": "assets/swapHorizontalBold-CARBO-ff.js",
     "name": "swapHorizontalBold",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontalBold.js",
     "isDynamicEntry": true,
@@ -1075,7 +1075,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontalMedium.js": {
-    "file": "assets/swapHorizontalMedium-DzxZg2hb.js",
+    "file": "assets/swapHorizontalMedium-B4TFHZIw.js",
     "name": "swapHorizontalMedium",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontalMedium.js",
     "isDynamicEntry": true,
@@ -1084,7 +1084,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontalRoundedBold.js": {
-    "file": "assets/swapHorizontalRoundedBold-Bcs5Q-h1.js",
+    "file": "assets/swapHorizontalRoundedBold-w-vq20m8.js",
     "name": "swapHorizontalRoundedBold",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapHorizontalRoundedBold.js",
     "isDynamicEntry": true,
@@ -1093,7 +1093,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapVertical.js": {
-    "file": "assets/swapVertical-CILZkc_q.js",
+    "file": "assets/swapVertical-CCm-NLQE.js",
     "name": "swapVertical",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/swapVertical.js",
     "isDynamicEntry": true,
@@ -1102,7 +1102,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/telegram.js": {
-    "file": "assets/telegram-Ul7VPMYL.js",
+    "file": "assets/telegram-D6_ZxnOQ.js",
     "name": "telegram",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/telegram.js",
     "isDynamicEntry": true,
@@ -1111,7 +1111,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/three-dots.js": {
-    "file": "assets/three-dots-Dye0wa4-.js",
+    "file": "assets/three-dots-DmAp6wIo.js",
     "name": "three-dots",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/three-dots.js",
     "isDynamicEntry": true,
@@ -1120,7 +1120,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/twitch.js": {
-    "file": "assets/twitch-DueQP7Pf.js",
+    "file": "assets/twitch-CD40BRXz.js",
     "name": "twitch",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/twitch.js",
     "isDynamicEntry": true,
@@ -1129,7 +1129,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/twitterIcon.js": {
-    "file": "assets/twitterIcon-C7sSJAEP.js",
+    "file": "assets/twitterIcon-Cf3aXe37.js",
     "name": "twitterIcon",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/twitterIcon.js",
     "isDynamicEntry": true,
@@ -1138,7 +1138,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/verify-filled.js": {
-    "file": "assets/verify-filled-WUBcXIAF.js",
+    "file": "assets/verify-filled-D2bOMxVR.js",
     "name": "verify-filled",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/verify-filled.js",
     "isDynamicEntry": true,
@@ -1147,7 +1147,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/verify.js": {
-    "file": "assets/verify-BnPK0RZu.js",
+    "file": "assets/verify-CayvIrmf.js",
     "name": "verify",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/verify.js",
     "isDynamicEntry": true,
@@ -1156,7 +1156,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/wallet-placeholder.js": {
-    "file": "assets/wallet-placeholder-BvjuaIaR.js",
+    "file": "assets/wallet-placeholder-DZOvIM2Q.js",
     "name": "wallet-placeholder",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/wallet-placeholder.js",
     "isDynamicEntry": true,
@@ -1165,7 +1165,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/wallet.js": {
-    "file": "assets/wallet-BReJsnL7.js",
+    "file": "assets/wallet-7GtHet3b.js",
     "name": "wallet",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/wallet.js",
     "isDynamicEntry": true,
@@ -1174,7 +1174,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/walletconnect.js": {
-    "file": "assets/walletconnect-BNjko2nt.js",
+    "file": "assets/walletconnect-C-4z_1cm.js",
     "name": "walletconnect",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/walletconnect.js",
     "isDynamicEntry": true,
@@ -1183,7 +1183,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/warning-circle.js": {
-    "file": "assets/warning-circle-BOBmUJGj.js",
+    "file": "assets/warning-circle-CC5ITF5c.js",
     "name": "warning-circle",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/warning-circle.js",
     "isDynamicEntry": true,
@@ -1192,7 +1192,7 @@
     ]
   },
   "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/x.js": {
-    "file": "assets/x-CNwaZTyz.js",
+    "file": "assets/x-0FAObo5P.js",
     "name": "x",
     "src": "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/x.js",
     "isDynamicEntry": true,
@@ -1201,18 +1201,18 @@
     ]
   },
   "../node_modules/@reown/appkit/node_modules/@noble/curves/esm/secp256k1.js": {
-    "file": "assets/secp256k1-BCth8G8_.js",
+    "file": "assets/secp256k1-ogIqRcEe.js",
     "name": "secp256k1",
     "src": "../node_modules/@reown/appkit/node_modules/@noble/curves/esm/secp256k1.js",
     "isDynamicEntry": true,
     "imports": [
-      "_core-COF2JKBj.js",
+      "_core-D2jNsvDw.js",
       "index.html",
-      "_index.es-COuiDQie.js"
+      "_index.es-C_SFyfIp.js"
     ]
   },
   "../node_modules/@safe-global/safe-apps-sdk/dist/esm/index.js": {
-    "file": "assets/index-BAYbanLB.js",
+    "file": "assets/index-XQD8HyHX.js",
     "name": "index",
     "src": "../node_modules/@safe-global/safe-apps-sdk/dist/esm/index.js",
     "isDynamicEntry": true,
@@ -1222,12 +1222,12 @@
     ]
   },
   "../node_modules/@walletconnect/utils/node_modules/@noble/curves/esm/secp256k1.js": {
-    "file": "assets/secp256k1-C5-s_HZ2.js",
+    "file": "assets/secp256k1-BYQm8Hok.js",
     "name": "secp256k1",
     "src": "../node_modules/@walletconnect/utils/node_modules/@noble/curves/esm/secp256k1.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index.es-COuiDQie.js",
+      "_index.es-C_SFyfIp.js",
       "index.html"
     ]
   },
@@ -1238,48 +1238,48 @@
     "isDynamicEntry": true
   },
   "../node_modules/matrix-js-sdk/lib/rust-crypto/index.js": {
-    "file": "assets/index-CgvMLTFw.js",
+    "file": "assets/index-YasLQfkI.js",
     "name": "index",
     "src": "../node_modules/matrix-js-sdk/lib/rust-crypto/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_Messenger-C27_EWbq.js",
+      "_Messenger-BOXfQ2KV.js",
       "index.html",
-      "_NativeRoutes-CkGc2XFU.js",
-      "_createPublicClient-BHhp8tZG.js",
-      "_messenger-Bh4YAUUE.js",
-      "_key-round-DbgErxeP.js"
+      "_NativeRoutes-BrjAhcwf.js",
+      "_createPublicClient-DCYRDjCH.js",
+      "_messenger-Cy5XCYEV.js",
+      "_key-round-BvGp5mnn.js"
     ],
     "assets": [
       "assets/matrix_sdk_crypto_wasm_bg-DQQaknxI.wasm"
     ]
   },
   "../node_modules/porto/dist/index.js": {
-    "file": "assets/index-CeAMS22A.js",
+    "file": "assets/index-THR9Unoc.js",
     "name": "index",
     "src": "../node_modules/porto/dist/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-Cp12qKgK.js",
+      "_index-DhS3ZBjA.js",
       "index.html",
       "_vanilla-BSN8VQPM.js",
-      "_bsc-BYvi-KVX.js"
+      "_bsc-CwrZuU45.js"
     ]
   },
   "../node_modules/viem/_esm/index.js": {
-    "file": "assets/index-BqjT5_Di.js",
+    "file": "assets/index-ChxQo092.js",
     "name": "index",
     "src": "../node_modules/viem/_esm/index.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_createPublicClient-BHhp8tZG.js",
-      "_parseSignature-D7Z72faZ.js",
+      "_createPublicClient-DCYRDjCH.js",
+      "_parseSignature-Do7WoSDh.js",
       "../node_modules/viem/_esm/utils/ccip.js"
     ]
   },
   "../node_modules/viem/_esm/utils/ccip.js": {
-    "file": "assets/ccip-Cg-iC9mz.js",
+    "file": "assets/ccip-C1KA8MeS.js",
     "name": "ccip",
     "src": "../node_modules/viem/_esm/utils/ccip.js",
     "isDynamicEntry": true,
@@ -1287,19 +1287,15 @@
       "index.html"
     ]
   },
-  "_Messenger-BsdJp7kM.css": {
-    "file": "assets/Messenger-BsdJp7kM.css",
-    "src": "_Messenger-BsdJp7kM.css"
-  },
-  "_Messenger-C27_EWbq.js": {
-    "file": "assets/Messenger-C27_EWbq.js",
+  "_Messenger-BOXfQ2KV.js": {
+    "file": "assets/Messenger-BOXfQ2KV.js",
     "name": "Messenger",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_NativeRoutes-CkGc2XFU.js",
-      "_messenger-Bh4YAUUE.js",
-      "_key-round-DbgErxeP.js"
+      "_NativeRoutes-BrjAhcwf.js",
+      "_messenger-Cy5XCYEV.js",
+      "_key-round-BvGp5mnn.js"
     ],
     "dynamicImports": [
       "../node_modules/matrix-js-sdk/lib/rust-crypto/index.js",
@@ -1309,44 +1305,48 @@
       "assets/Messenger-BsdJp7kM.css"
     ]
   },
+  "_Messenger-BsdJp7kM.css": {
+    "file": "assets/Messenger-BsdJp7kM.css",
+    "src": "_Messenger-BsdJp7kM.css"
+  },
   "_NativeRoutes-BAHN36Tx.css": {
     "file": "assets/NativeRoutes-BAHN36Tx.css",
     "src": "_NativeRoutes-BAHN36Tx.css"
   },
-  "_NativeRoutes-CkGc2XFU.js": {
-    "file": "assets/NativeRoutes-CkGc2XFU.js",
+  "_NativeRoutes-BrjAhcwf.js": {
+    "file": "assets/NativeRoutes-BrjAhcwf.js",
     "name": "NativeRoutes",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_createPublicClient-BHhp8tZG.js",
-      "_messenger-Bh4YAUUE.js"
+      "_createPublicClient-DCYRDjCH.js",
+      "_messenger-Cy5XCYEV.js"
     ],
     "css": [
       "assets/NativeRoutes-BAHN36Tx.css"
     ]
   },
-  "_SwapController-ST5Z2W07.js": {
-    "file": "assets/SwapController-ST5Z2W07.js",
+  "_SwapController-DphK4TXP.js": {
+    "file": "assets/SwapController-DphK4TXP.js",
     "name": "SwapController",
     "imports": [
       "index.html"
     ]
   },
-  "_bsc-BYvi-KVX.js": {
-    "file": "assets/bsc-BYvi-KVX.js",
+  "_bsc-CwrZuU45.js": {
+    "file": "assets/bsc-CwrZuU45.js",
     "name": "bsc",
     "imports": [
       "index.html"
     ]
   },
-  "_core-COF2JKBj.js": {
-    "file": "assets/core-COF2JKBj.js",
+  "_core-D2jNsvDw.js": {
+    "file": "assets/core-D2jNsvDw.js",
     "name": "core",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_index.es-COuiDQie.js"
+      "_index.es-C_SFyfIp.js"
     ],
     "dynamicImports": [
       "../node_modules/@reown/appkit/node_modules/@noble/curves/esm/secp256k1.js",
@@ -1354,8 +1354,8 @@
       "../node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/w3m-modal.js"
     ]
   },
-  "_createPublicClient-BHhp8tZG.js": {
-    "file": "assets/createPublicClient-BHhp8tZG.js",
+  "_createPublicClient-DCYRDjCH.js": {
+    "file": "assets/createPublicClient-DCYRDjCH.js",
     "name": "createPublicClient",
     "imports": [
       "index.html"
@@ -1365,81 +1365,12 @@
     "file": "assets/hooks.module-C4R15-Vr.js",
     "name": "hooks.module"
   },
-  "_index-BB_H8qcF.js": {
-    "file": "assets/index-BB_H8qcF.js",
-    "name": "index",
-    "isDynamicEntry": true,
-    "imports": [
-      "index.html",
-      "_index-H-Ckw-g_.js"
-    ]
-  },
-  "_index-BoTCFPIc.js": {
-    "file": "assets/index-BoTCFPIc.js",
-    "name": "index",
-    "imports": [
-      "index.html"
-    ]
-  },
-  "_index-Cp12qKgK.js": {
-    "file": "assets/index-Cp12qKgK.js",
-    "name": "index",
-    "isDynamicEntry": true,
-    "imports": [
-      "index.html"
-    ],
-    "dynamicImports": [
-      "../node_modules/@base-org/account/dist/index.js",
-      "../node_modules/@coinbase/wallet-sdk/dist/index.js",
-      "_index-D-fHmFbq.js",
-      "../node_modules/@metamask/sdk/dist/browser/es/metamask-sdk.js",
-      "../node_modules/porto/dist/index.js",
-      "../node_modules/@safe-global/safe-apps-sdk/dist/esm/index.js",
-      "_index-BB_H8qcF.js",
-      "_index.es-COuiDQie.js"
-    ]
-  },
-  "_index-D-fHmFbq.js": {
-    "file": "assets/index-D-fHmFbq.js",
-    "name": "index",
-    "isDynamicEntry": true,
-    "imports": [
-      "index.html",
-      "_hooks.module-C4R15-Vr.js",
-      "_index-Cp12qKgK.js"
-    ]
-  },
-  "_index-DAixdhUf.js": {
-    "file": "assets/index-DAixdhUf.js",
-    "name": "index",
-    "imports": [
-      "index.html"
-    ]
-  },
-  "_index-DUiEZpxG.js": {
-    "file": "assets/index-DUiEZpxG.js",
-    "name": "index",
-    "imports": [
-      "index.html"
-    ]
-  },
-  "_index-H-Ckw-g_.js": {
-    "file": "assets/index-H-Ckw-g_.js",
-    "name": "index"
-  },
-  "_index-lrR5hUMg.js": {
-    "file": "assets/index-lrR5hUMg.js",
-    "name": "index",
-    "imports": [
-      "index.html"
-    ]
-  },
-  "_index-oAnFsRY5.js": {
-    "file": "assets/index-oAnFsRY5.js",
+  "_index-B_dzGZIC.js": {
+    "file": "assets/index-B_dzGZIC.js",
     "name": "index",
     "imports": [
       "index.html",
-      "_core-COF2JKBj.js"
+      "_core-D2jNsvDw.js"
     ],
     "dynamicImports": [
       "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/add.js",
@@ -1521,8 +1452,77 @@
       "../node_modules/@reown/appkit-ui/dist/esm/src/assets/svg/reown-logo.js"
     ]
   },
-  "_index.es-COuiDQie.js": {
-    "file": "assets/index.es-COuiDQie.js",
+  "_index-C5FiBYhH.js": {
+    "file": "assets/index-C5FiBYhH.js",
+    "name": "index",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_index-CPg8vNk_.js": {
+    "file": "assets/index-CPg8vNk_.js",
+    "name": "index",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_hooks.module-C4R15-Vr.js",
+      "_index-DhS3ZBjA.js"
+    ]
+  },
+  "_index-CmQBUyCz.js": {
+    "file": "assets/index-CmQBUyCz.js",
+    "name": "index",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_index-D7tY9m6x.js": {
+    "file": "assets/index-D7tY9m6x.js",
+    "name": "index",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html",
+      "_index-H-Ckw-g_.js"
+    ]
+  },
+  "_index-DP_pLWuD.js": {
+    "file": "assets/index-DP_pLWuD.js",
+    "name": "index",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_index-DhS3ZBjA.js": {
+    "file": "assets/index-DhS3ZBjA.js",
+    "name": "index",
+    "isDynamicEntry": true,
+    "imports": [
+      "index.html"
+    ],
+    "dynamicImports": [
+      "../node_modules/@base-org/account/dist/index.js",
+      "../node_modules/@coinbase/wallet-sdk/dist/index.js",
+      "_index-CPg8vNk_.js",
+      "../node_modules/@metamask/sdk/dist/browser/es/metamask-sdk.js",
+      "../node_modules/porto/dist/index.js",
+      "../node_modules/@safe-global/safe-apps-sdk/dist/esm/index.js",
+      "_index-D7tY9m6x.js",
+      "_index.es-C_SFyfIp.js"
+    ]
+  },
+  "_index-DlTebn46.js": {
+    "file": "assets/index-DlTebn46.js",
+    "name": "index",
+    "imports": [
+      "index.html"
+    ]
+  },
+  "_index-H-Ckw-g_.js": {
+    "file": "assets/index-H-Ckw-g_.js",
+    "name": "index"
+  },
+  "_index.es-C_SFyfIp.js": {
+    "file": "assets/index.es-C_SFyfIp.js",
     "name": "index.es",
     "isDynamicEntry": true,
     "imports": [
@@ -1530,18 +1530,18 @@
     ],
     "dynamicImports": [
       "../node_modules/@walletconnect/utils/node_modules/@noble/curves/esm/secp256k1.js",
-      "_core-COF2JKBj.js"
+      "_core-D2jNsvDw.js"
     ]
   },
-  "_key-round-DbgErxeP.js": {
-    "file": "assets/key-round-DbgErxeP.js",
+  "_key-round-BvGp5mnn.js": {
+    "file": "assets/key-round-BvGp5mnn.js",
     "name": "key-round",
     "imports": [
       "index.html"
     ]
   },
-  "_messenger-Bh4YAUUE.js": {
-    "file": "assets/messenger-Bh4YAUUE.js",
+  "_messenger-Cy5XCYEV.js": {
+    "file": "assets/messenger-Cy5XCYEV.js",
     "name": "messenger",
     "imports": [
       "index.html"
@@ -1554,16 +1554,16 @@
     "file": "assets/messenger-DZc7CVP3.css",
     "src": "_messenger-DZc7CVP3.css"
   },
-  "_p256-CT1jKfBf.js": {
-    "file": "assets/p256-CT1jKfBf.js",
+  "_p256-BMKFalJe.js": {
+    "file": "assets/p256-BMKFalJe.js",
     "name": "p256",
     "imports": [
       "index.html",
-      "_parseSignature-D7Z72faZ.js"
+      "_parseSignature-Do7WoSDh.js"
     ]
   },
-  "_parseSignature-D7Z72faZ.js": {
-    "file": "assets/parseSignature-D7Z72faZ.js",
+  "_parseSignature-Do7WoSDh.js": {
+    "file": "assets/parseSignature-Do7WoSDh.js",
     "name": "parseSignature",
     "imports": [
       "index.html"
@@ -1582,16 +1582,16 @@
     "name": "vanilla"
   },
   "index.html": {
-    "file": "assets/index-BmaltX6o.js",
+    "file": "assets/index-BtjM1I8W.js",
     "name": "index",
     "src": "index.html",
     "isEntry": true,
     "dynamicImports": [
       "../node_modules/viem/_esm/utils/ccip.js",
       "../node_modules/viem/_esm/index.js",
-      "_index-Cp12qKgK.js",
-      "_index-Cp12qKgK.js",
-      "_index-Cp12qKgK.js",
+      "_index-DhS3ZBjA.js",
+      "_index-DhS3ZBjA.js",
+      "_index-DhS3ZBjA.js",
       "../node_modules/viem/_esm/index.js",
       "node_modules/@reown/appkit-controllers/dist/esm/exports/features.js",
       "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/embedded-wallet.js",
@@ -1663,16 +1663,16 @@
       "../node_modules/ethers/lib.esm/index.js",
       "src/wallet/WalletDialog.tsx",
       "src/components/particleScene.ts",
-      "_Messenger-C27_EWbq.js",
+      "_Messenger-BOXfQ2KV.js",
       "src/wallet/WalletDialog.tsx",
-      "_NativeRoutes-CkGc2XFU.js"
+      "_NativeRoutes-BrjAhcwf.js"
     ],
     "css": [
       "assets/index-axj2Lbap.css"
     ]
   },
   "node_modules/@reown/appkit-controllers/dist/esm/exports/features.js": {
-    "file": "assets/features-BUSH7Vyj.js",
+    "file": "assets/features-1e_lsiWc.js",
     "name": "features",
     "src": "node_modules/@reown/appkit-controllers/dist/esm/exports/features.js",
     "isDynamicEntry": true,
@@ -1681,27 +1681,27 @@
     ]
   },
   "node_modules/@reown/appkit-pay/dist/esm/exports/index.js": {
-    "file": "assets/index-DBazQR2y.js",
+    "file": "assets/index-9z6FTLJ6.js",
     "name": "index",
     "src": "node_modules/@reown/appkit-pay/dist/esm/exports/index.js",
     "isDynamicEntry": true,
     "imports": [
-      "_index-BoTCFPIc.js",
+      "_index-C5FiBYhH.js",
       "index.html"
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/email.js": {
-    "file": "assets/email-B99g_7y6.js",
+    "file": "assets/email-D8_V5JKw.js",
     "name": "email",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/email.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_index-DAixdhUf.js"
+      "_index-DP_pLWuD.js"
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/embedded-wallet.js": {
-    "file": "assets/embedded-wallet-RtgpdjD0.js",
+    "file": "assets/embedded-wallet-V_BldKvf.js",
     "name": "embedded-wallet",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/embedded-wallet.js",
     "isDynamicEntry": true,
@@ -1710,7 +1710,7 @@
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/onramp.js": {
-    "file": "assets/onramp-B3oF58JI.js",
+    "file": "assets/onramp-CkIytH22.js",
     "name": "onramp",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/onramp.js",
     "isDynamicEntry": true,
@@ -1719,17 +1719,17 @@
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/pay-with-exchange.js": {
-    "file": "assets/pay-with-exchange-urSWd80L.js",
+    "file": "assets/pay-with-exchange-Bahg1SO3.js",
     "name": "pay-with-exchange",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/pay-with-exchange.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_index-lrR5hUMg.js"
+      "_index-DlTebn46.js"
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/receive.js": {
-    "file": "assets/receive-C6UlO9EC.js",
+    "file": "assets/receive-BDtxNnLF.js",
     "name": "receive",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/receive.js",
     "isDynamicEntry": true,
@@ -1738,30 +1738,30 @@
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/reown-authentication/data-capture.js": {
-    "file": "assets/data-capture-BAsg5BoJ.js",
+    "file": "assets/data-capture-o4eTWQe8.js",
     "name": "data-capture",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/reown-authentication/data-capture.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_index-DAixdhUf.js",
+      "_index-DP_pLWuD.js",
       "node_modules/@reown/appkit-controllers/dist/esm/exports/features.js"
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/send.js": {
-    "file": "assets/send-BcqPdt32.js",
+    "file": "assets/send-BDcfqxOs.js",
     "name": "send",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/send.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_index-lrR5hUMg.js",
-      "_index-DUiEZpxG.js",
-      "_SwapController-ST5Z2W07.js"
+      "_index-DlTebn46.js",
+      "_index-CmQBUyCz.js",
+      "_SwapController-DphK4TXP.js"
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/socials.js": {
-    "file": "assets/socials-yKytnn7u.js",
+    "file": "assets/socials-BsRW3hPI.js",
     "name": "socials",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/socials.js",
     "isDynamicEntry": true,
@@ -1770,18 +1770,18 @@
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/swaps.js": {
-    "file": "assets/swaps-B9Q_Q-hA.js",
+    "file": "assets/swaps-fhBhsS4v.js",
     "name": "swaps",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/swaps.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_SwapController-ST5Z2W07.js",
-      "_index-DUiEZpxG.js"
+      "_SwapController-DphK4TXP.js",
+      "_index-CmQBUyCz.js"
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/transactions.js": {
-    "file": "assets/transactions-Cp5H4wUE.js",
+    "file": "assets/transactions-BE9qi6Xt.js",
     "name": "transactions",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/transactions.js",
     "isDynamicEntry": true,
@@ -1790,14 +1790,14 @@
     ]
   },
   "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/w3m-modal.js": {
-    "file": "assets/w3m-modal-j5UgFi8r.js",
+    "file": "assets/w3m-modal-8IA7wATi.js",
     "name": "w3m-modal",
     "src": "node_modules/@reown/appkit-scaffold-ui/dist/esm/exports/w3m-modal.js",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_index-BoTCFPIc.js",
-      "_SwapController-ST5Z2W07.js"
+      "_index-C5FiBYhH.js",
+      "_SwapController-DphK4TXP.js"
     ]
   },
   "src/components/particleScene.ts": {
@@ -1819,14 +1819,14 @@
     ]
   },
   "src/wallet/WalletDialog.tsx": {
-    "file": "assets/WalletDialog-BpGzGv4J.js",
+    "file": "assets/WalletDialog-Dcbs8uJi.js",
     "name": "WalletDialog",
     "src": "src/wallet/WalletDialog.tsx",
     "isDynamicEntry": true,
     "imports": [
       "index.html",
-      "_messenger-Bh4YAUUE.js",
-      "_key-round-DbgErxeP.js"
+      "_messenger-Cy5XCYEV.js",
+      "_key-round-BvGp5mnn.js"
     ],
     "css": [
       "assets/WalletDialog-BCb1WeFc.css"

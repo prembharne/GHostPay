@@ -14,7 +14,7 @@ The installed app launches `/chat`, uses the black/silver theme and includes Mes
 - Previously available local conversations may remain readable. Preview messages are fictional/on-device; this is not a claim of encrypted live delivery or a durable offline Matrix outbox.
 - API, contract artifact, Matrix/auth, cross-origin RPC, non-GET, query-bearing and Authorization-bearing requests bypass the worker. Live navigation responses are not cached as user data.
 - On a failed navigation fetch, `/` and `/chat` receive the fixed public shell; financial/setup routes receive a branded reconnect page. Already-open SPA screens can still be visible offline; a visible form does not imply a payment is available.
-- The app displays an offline banner. Wallet preparation rejects offline use before requesting a provider, network switch, signature or transaction. Google wallet onboarding and username registration are disabled offline. No payment is queued or signed for later submission.
+- The app displays an offline banner. Native-payment wallet preparation rejects offline use before requesting a provider, network switch, signature or transaction. Google wallet onboarding and username registration are disabled offline. There is no automatic payment outbox or background transaction submission.
 
 This cache policy is separate from existing device storage: local preview messages and explicitly enabled encrypted device-wallet backups have their own documented storage rules. The worker does not make those records private or recoverable.
 
