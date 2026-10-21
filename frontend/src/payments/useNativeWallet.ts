@@ -6,6 +6,7 @@ import { openWalletAccount, walletConfig } from '../config/reown';
 export function useNativeWallet(networkId: number) {
   const account = useAccount(); const connection = useConnect();
   async function wallet() {
+    if (navigator.onLine === false) throw new Error('Reconnect before opening your wallet or approving a transaction.');
     let current = getAccount(walletConfig);
     if (!current.connector || !current.address || current.connector.id === 'ghostpay-local') { await openWalletAccount('Connect'); current = getAccount(walletConfig); }
     if (!current.connector || !current.address || current.connector.id === 'ghostpay-local') throw new Error('Connect your Google or external wallet to continue.');

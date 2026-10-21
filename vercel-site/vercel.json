@@ -15,6 +15,22 @@
   },
   "routes": [
     {
+      "src": "/sw\\.js",
+      "headers": {
+        "Cache-Control": "no-store",
+        "Service-Worker-Allowed": "/"
+      },
+      "continue": true
+    },
+    {
+      "src": "/manifest\\.webmanifest",
+      "headers": {
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/manifest+json"
+      },
+      "continue": true
+    },
+    {
       "src": "/api/prices",
       "dest": "/api/prices"
     },

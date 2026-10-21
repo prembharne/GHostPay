@@ -1,0 +1,28 @@
+{
+  "version": "51978f670c0b9890",
+  "precacheBytes": 3704730,
+  "files": [
+    "/assets/Messenger-BsdJp7kM.css",
+    "/assets/Messenger-C27_EWbq.js",
+    "/assets/NativeRoutes-BAHN36Tx.css",
+    "/assets/NativeRoutes-CkGc2XFU.js",
+    "/assets/WalletDialog-BCb1WeFc.css",
+    "/assets/WalletDialog-BpGzGv4J.js",
+    "/assets/createPublicClient-BHhp8tZG.js",
+    "/assets/index-BmaltX6o.js",
+    "/assets/index-axj2Lbap.css",
+    "/assets/key-round-DbgErxeP.js",
+    "/assets/messenger-Bh4YAUUE.js",
+    "/assets/messenger-DZc7CVP3.css",
+    "/icons/ghostpay-180.png",
+    "/icons/ghostpay-192.png",
+    "/icons/ghostpay-512.png",
+    "/index.html",
+    "/instrument-serif-italic.woff2",
+    "/inter.woff2",
+    "/manifest.webmanifest",
+    "/offline-retry.js",
+    "/offline.html"
+  ],
+  "policy": "public application assets only; API/RPC/auth/contract data are network-only"
+}

@@ -18,6 +18,7 @@
     "build": "npm run compile && npm run build:services && npm run build -w server && npm run build -w frontend",
     "start": "node scripts/start.mjs",
     "check:sepolia": "node scripts/check-sepolia.mjs",
+    "check:pwa": "node scripts/check-pwa.mjs",
     "build:services": "node scripts/build-prices.mjs && node scripts/build-native-artifact.mjs",
     "test:matrix": "node --test infra/matrix/test.mjs",
     "check:matrix": "node infra/matrix/check.mjs",

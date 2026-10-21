@@ -9,6 +9,7 @@ import { Dashboard } from './pages/Dashboard';
 import { Setup } from './pages/Setup';
 import { deployed } from './config/web3';
 import { lazy, Suspense } from 'react';
+import { AppLoading } from './components/AppLoading';
 const Messenger = lazy(() => import('./messenger/Messenger'));
 const WalletApprovalHost = lazy(() => import('./wallet/WalletDialog').then(module => ({ default: module.WalletApprovalHost })));
 
@@ -16,9 +17,9 @@ const NativeRoutes = lazy(() => import('./payments/NativeRoutes'));
 export default function App() { return <><Suspense fallback={null}><WalletApprovalHost/></Suspense><AppRoutes/></>; }
 function AppRoutes() {
   const { pathname } = useLocation();
-  if (pathname === '/create' || pathname === '/payments' || pathname.startsWith('/pay/v2/') || pathname.startsWith('/campaign/')) return <Suspense fallback={<div className="gp-native-loading">Opening native payments…</div>}><NativeRoutes/></Suspense>;
+  if (pathname === '/create' || pathname === '/payments' || pathname.startsWith('/pay/v2/') || pathname.startsWith('/campaign/')) return <Suspense fallback={<AppLoading label="Opening your payments"/>}><NativeRoutes/></Suspense>;
   if (pathname === '/') return <Landing />;
-  if (pathname === '/chat' || pathname.startsWith('/chat/')) return <Suspense fallback={<div style={{ minHeight: '100dvh', display: 'grid', placeItems: 'center', background: '#080809', color: '#bdbdc4', fontFamily: 'Inter, sans-serif', fontSize: 13 }}>Opening your conversations…</div>}><Messenger/></Suspense>;
+  if (pathname === '/chat' || pathname.startsWith('/chat/')) return <Suspense fallback={<AppLoading/>}><Messenger/></Suspense>;
 
   return <div className="workspace">
     <div className="workspace-photo" aria-hidden="true" />

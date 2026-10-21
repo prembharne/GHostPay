@@ -20,6 +20,10 @@ A monochrome messenger combining Matrix groups and communities, Google-connected
 
 ## Messenger release
 
+GhostPay now includes an installable **PWA** with app icons, home-screen launch, a public offline shell, connection status and user-controlled updates. Mobile navigation, rounded forms and conversation drafts follow the existing monochrome design. See the [PWA installation and cache boundaries](docs/PWA.md). Device installation and live Matrix messaging have separate requirements; a PWA does not supply a messaging server.
+
+The [INR ↔ USDC safety research](docs/P2P-SAFETY-RESEARCH.md) proposes proof-based escrow and explains why consensus cannot guarantee the authorization or permanent finality of an off-chain bank payment. Fiat/USDC trading is **not enabled** by this release.
+
 **[Explore the messenger](https://ghostpay-lac.vercel.app/chat).** The public release currently opens a clearly labeled **local preview**, with fictional conversations. Preview messages stay in your browser; nobody receives them. A Matrix homeserver and Google OIDC configuration have not been supplied or deployed.
 
 | Area | Current behavior |
