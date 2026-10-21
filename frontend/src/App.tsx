@@ -17,7 +17,7 @@ const NativeRoutes = lazy(() => import('./payments/NativeRoutes'));
 export default function App() { return <><Suspense fallback={null}><WalletApprovalHost/></Suspense><AppRoutes/></>; }
 function AppRoutes() {
   const { pathname } = useLocation();
-  if (pathname === '/create' || pathname === '/payments' || pathname.startsWith('/pay/v2/') || pathname.startsWith('/campaign/')) return <Suspense fallback={<AppLoading label="Opening your payments"/>}><NativeRoutes/></Suspense>;
+  if (pathname === '/trade' || pathname === '/create' || pathname === '/payments' || pathname.startsWith('/pay/v2/') || pathname.startsWith('/campaign/')) return <Suspense fallback={<AppLoading label="Opening your payments"/>}><NativeRoutes/></Suspense>;
   if (pathname === '/') return <Landing />;
   if (pathname === '/chat' || pathname.startsWith('/chat/')) return <Suspense fallback={<AppLoading/>}><Messenger/></Suspense>;
 

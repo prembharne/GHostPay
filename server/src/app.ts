@@ -1,3 +1,4 @@
+import { chainlinkQuote } from '../../shared/p2pOracle.js';
 import express from 'express';
 import { createMarketService } from '../../shared/market.js';
 import cors from 'cors';
@@ -25,6 +26,7 @@ export function createApp(client: PublicClient, deployment: { address: Address; 
     try { const upstream = 'https://ghostpay-prem-sepolia.brawnyfrost16.chatgpt.site'; const response = await fetch(upstream + req.originalUrl, { method: req.method, headers: { 'Content-Type': 'application/json', Origin: upstream }, body: req.method === 'POST' ? JSON.stringify(req.body) : undefined, redirect: 'error', signal: AbortSignal.timeout(15000) }); res.status(response.status).json(await response.json()); }
     catch { res.status(503).json({ error: 'Username directory is unavailable. Retry later.' }); }
   });
+  app.get('/api/p2p/quote', async (_req, res) => { res.setHeader('Cache-Control', 'no-store'); try { const quote = await chainlinkQuote(process.env); res.status(quote.configured ? 200 : 503).json(quote); } catch { res.status(503).json({ configured: false, reason: 'Oracle verification failed. Live quotes are unavailable.' }); } });
   app.get('/api/prices', async (_req, res) => { try { res.setHeader('Cache-Control', 'public, max-age=15'); res.json(await marketPrices()); } catch { res.status(503).json({ error: 'Live prices are temporarily unavailable.' }); } });
   app.get('/api/deployment', (_req, res) => { res.setHeader('Cache-Control', 'no-store'); res.json(setup?.registry.current || { ...deployment, configured: true }); });
   app.get('/api/deployment/artifact', (_req, res) => { if (!setup) return fail('Wallet deployment is not enabled.', 404); res.json({ bytecode: setup.bytecode, chainId: deployment.chainId }); });

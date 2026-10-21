@@ -19,10 +19,11 @@
     "start": "node scripts/start.mjs",
     "check:sepolia": "node scripts/check-sepolia.mjs",
     "check:pwa": "node scripts/check-pwa.mjs",
-    "build:services": "node scripts/build-prices.mjs && node scripts/build-native-artifact.mjs",
+    "build:services": "node scripts/build-prices.mjs && node scripts/build-native-artifact.mjs && node scripts/build-p2p.mjs",
     "test:matrix": "node --test infra/matrix/test.mjs",
     "check:matrix": "node infra/matrix/check.mjs",
-    "security:community": "node scripts/review-community.mjs"
+    "security:community": "node scripts/review-community.mjs",
+    "security:p2p": "node scripts/review-p2p.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

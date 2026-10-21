@@ -23,14 +23,18 @@ jobs:
       - run: npm test
       - run: npm run test:messenger
       - run: npm run test:matrix
+      - run: npm test --prefix vercel-site
       - name: Install pinned static analyzer
         run: |
           python -m pip install slither-analyzer==0.11.6
           solc-select install 0.8.28
           solc-select use 0.8.28
       - run: npm run security:community
+      - run: npm run security:p2p
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: community-static-analysis
-          path: docs/community-slither.json
+          path: |
+            docs/community-slither.json
+            docs/p2p-slither.json

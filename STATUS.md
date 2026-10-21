@@ -1,3 +1,13 @@
+## INR ↔ USDC P2P settlement sandbox - 2026-10-21
+
+- Added `/trade` and a Payments entry with the existing monochrome theme, rounded amount fields, integer quote/fee review, a four-step walkthrough and a separately acknowledged settlement workspace.
+- Added a no-argument, testnet-only factory creating worthless six-decimal gpUSD tokens and an immutable escrow/attestor configuration. User-approved Sepolia deployment/import verifies exact runtime/initcode, canonical receipt, two confirmations and chain. No public P2P contract deployment or funds movement was performed by the agent.
+- Implements exact seller deposit, named buyer acceptance, simulated payment report, EIP-712 attestation, fixed payout destinations, 0.5% fee, replay checks, disputes and explicit buyer-forfeit/seller-unaccepted cancellation. No unilateral seller timeout sweep after acceptance. Deployer attestations are simulated evidence; no bank/UTR verification is claimed. Locked-funds/provider-dispute limitations are documented.
+- Prepared a no-store Chainlink quote endpoint with round, pair, chain, freshness and depeg validation. No feed addresses/heartbeats or proof-provider access have been configured. The interface uses a clearly marked illustrative ₹86.50 rate, not fabricated live market data. Real UPI and Circle USDC remain disabled.
+- Contract tests: 78 passing, including 17 P2P cases. Frontend reports: 36 passing; server: 17; Matrix: 6. Internal Slither review found zero High/Medium in GhostPay's P2P code; dependency-local detector results remain in the full report with rationale. This is not an independent audit. See `docs/P2P-IMPLEMENTATION.md` and `docs/p2p-slither.json`.
+- Vercel production `dpl_8MQpJT6d9X3x1FVD3JNnEXvn4HDE` is READY at https://ghostpay-lac.vercel.app/trade. Published PWA assets match the build. Oracle endpoint correctly returns an unconfigured 503 with no-store; the sandbox artifact and trade page return 200. All six gateway/quote endpoint tests pass.
+- Browser checks exercised quote validation, the step walkthrough, acknowledged deployment gating and malformed import rejection without signing. Desktop 1280px, phone 375px, tablet 768px and phone landscape 812px have no document overflow; the landscape navigation was corrected and rechecked. Reduced-motion disables the new floating animation. Screenshots: `docs/p2p-desktop.jpg`, `docs/p2p-mobile.jpg`. No public wallet signatures, token approvals, escrow funding or fiat payments were performed.
+
 # GhostPay - current verification state
 
 ## PWA, mobile polish and fiat safety research - 2026-10-21

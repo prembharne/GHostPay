@@ -22,7 +22,7 @@ A monochrome messenger combining Matrix groups and communities, Google-connected
 
 GhostPay now includes an installable **PWA** with app icons, home-screen launch, a public offline shell, connection status and user-controlled updates. Mobile navigation, rounded forms and conversation drafts follow the existing monochrome design. See the [PWA installation and cache boundaries](docs/PWA.md). Device installation and live Matrix messaging have separate requirements; a PWA does not supply a messaging server.
 
-The [INR ↔ USDC safety research](docs/P2P-SAFETY-RESEARCH.md) proposes proof-based escrow and explains why consensus cannot guarantee the authorization or permanent finality of an off-chain bank payment. Fiat/USDC trading is **not enabled** by this release.
+The [P2P settlement lab](https://ghostpay-lac.vercel.app/trade) now demonstrates seller-funded escrow, buyer acceptance, signed simulated payment evidence and fee settlement on Sepolia. It uses freely minted **gpUSD test tokens and simulated INR**, with no real UPI payments or Circle USDC. A read-only Chainlink quote adapter is prepared but needs reviewed feed configuration. Live fiat trading remains disabled until a real payment-proof provider is integrated. See the [implementation and security review](docs/P2P-IMPLEMENTATION.md) and [INR ↔ USDC safety research](docs/P2P-SAFETY-RESEARCH.md).
 
 **[Explore the messenger](https://ghostpay-lac.vercel.app/chat).** The public release currently opens a clearly labeled **local preview**, with fictional conversations. Preview messages stay in your browser; nobody receives them. A Matrix homeserver and Google OIDC configuration have not been supplied or deployed.
 
