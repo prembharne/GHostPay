@@ -1,8 +1,8 @@
 /* GhostPay caches public application code only. No API, wallet, bank or RPC data. */
-const BUILD = '085b7e9d0ca79ea9';
+const BUILD = '72653a43bc6deeea';
 const SHELL = `ghostpay-shell-${BUILD}`;
 const ASSETS = `ghostpay-assets-${BUILD}`;
-const PRECACHE = ["/assets/Messenger-BsdJp7kM.css","/assets/Messenger-DMFs2zT4.js","/assets/NativeRoutes-CF775cBw.css","/assets/NativeRoutes-aBCrg8DV.js","/assets/WalletDialog-BCb1WeFc.css","/assets/WalletDialog-C5zerg22.js","/assets/createPublicClient-DOtoyy_r.js","/assets/index-CLcwcz7L.js","/assets/index-axj2Lbap.css","/assets/key-round-h8or5ggJ.js","/assets/messenger-CwenIMeE.js","/assets/messenger-DZc7CVP3.css","/icons/ghostpay-180.png","/icons/ghostpay-192.png","/icons/ghostpay-512.png","/index.html","/instrument-serif-italic.woff2","/inter.woff2","/manifest.webmanifest","/offline-retry.js","/offline.html"];
+const PRECACHE = ["/assets/Messenger-BsdJp7kM.css","/assets/Messenger-Cj4NIe93.js","/assets/NativeRoutes-1mmhN5nN.js","/assets/NativeRoutes-Dqx-Usxy.css","/assets/WalletDialog-BCb1WeFc.css","/assets/WalletDialog-CsYVEJPD.js","/assets/createPublicClient-CvHCxPVx.js","/assets/index-BaOJrm3g.js","/assets/index-axj2Lbap.css","/assets/key-round-BhzdPbn4.js","/assets/messenger-BUUy9PLo.js","/assets/messenger-DZc7CVP3.css","/icons/ghostpay-180.png","/icons/ghostpay-192.png","/icons/ghostpay-512.png","/index.html","/instrument-serif-italic.woff2","/inter.woff2","/manifest.webmanifest","/offline-retry.js","/offline.html"];
 const ownCache = name => /^ghostpay-(shell|assets)-/.test(name);
 const publicAsset = path => /^\/assets\/[\w.-]+\.(js|css|wasm)$/.test(path) || /^\/icons\/ghostpay-(180|192|512)\.png$/.test(path) || ['/inter.woff2', '/instrument-serif-italic.woff2', '/offline-retry.js', '/manifest.webmanifest'].includes(path);
 
